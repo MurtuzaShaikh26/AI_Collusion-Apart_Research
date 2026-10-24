@@ -1,11 +1,11 @@
-# STATUS  (last updated: 2026-10-24 21:06 IST)
+# STATUS  (last updated: 2026-10-24 22:17 IST)
 
-Stage: 4 pilots done   Overall: on track
-Done this stage: Case B, C, and D finished, 2 seeds x 30 rounds each, DeepSeek V4.1 Flash, reasoning off. All six runs completed. Last-10-round mean gain: B −1.946 on both seeds (both firms priced 5.00); C seed 0 −2.324 (prices about 1.52), C seed 1 0.083 (prices 1.805); D seed 0 −0.0035 and D seed 1 −0.0003, with prices at the Nash price 1.473. None of B, C, or D is a positive control. Case A remains 0.964 on 3/3 seeds. Numbers are in `results/RESULTS.md`.
-Key results so far: explicit case A holds a price of 2.00. The covert, cost-schedule, and cheap-talk pilots do not.
-Running in background: replay pilot next, one finished A run and one finished C run.
-Spend so far: $0.347500 (910 calls, 889976 prompt tokens, 67678 completion tokens; `results/spend.json`, 2026-10-24 21:05 IST).
-NEXT: Replay pilot on A seed 0 and C seed 0 (8 rounds, 12 factual and 6 ablation samples). Upper-bound estimate about $0.18 each, under the $3 line.
+Stage: 4 replay pilot done   Overall: on track
+Done this stage: Replay finished for case A seed 0 and case C seed 0. Each used 8 rounds, 12 factual samples and 6 samples per ablation, 480 new calls. Effects are fractions of that round's monopoly-minus-Nash price gap. Case A: E_msg 0 (p=1), E_hist 0.590 (p=0.001), E_common 0 (p=1), noise floor 0. Case C: E_msg 0.056 (p=0.50), E_hist 0.886 (p=0.001), E_common 0.060 (p=0.025), noise floor 0.046. Case C has chat off, so the message ablation is not a communication test. Partner-price history moves both replays. Message text does not move the locked case A price of 2.00. Files: `results/signals/` and `results/RESULTS.md`.
+Key results so far: Case A gain 0.964 on 3/3 seeds. B, C, and D pilots do not clear 0.5. Replay says the case A price survives replacing the chat and the cost line, and moves when partner prices are replaced.
+Running in background: nothing.
+Spend so far: $0.746654 (1871 calls, 1890447 prompt tokens, 150188 completion tokens; `results/spend.json`, 2026-10-24 22:16 IST). The two replays added about $0.40.
+NEXT: Pre-register before any full multi-seed replay. Do not start the large replay until that file is written.
 NEED FROM MURT:
-1. Nothing blocking. The laptop can sleep after the replay pilot finishes; until then leave sleep off while plugged in.
+1. Nothing blocking. The laptop can sleep.
 2. Rotate the Fireworks key that was pasted in chat, and keep the new value only in `.env`.

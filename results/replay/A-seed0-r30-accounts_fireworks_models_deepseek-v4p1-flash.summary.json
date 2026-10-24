@@ -1,0 +1,23 @@
+{
+  "run_id": "A-seed0-r30-accounts_fireworks_models_deepseek-v4p1-flash",
+  "replayed_rounds": [
+    9,
+    16,
+    17,
+    20,
+    21,
+    23,
+    24,
+    30
+  ],
+  "short_trajectory": false,
+  "n_factual": 12,
+  "n_ablate": 6,
+  "conditions": [
+    "msg",
+    "hist",
+    "common"
+  ],
+  "new_calls": 480,
+  "finished": "2026-10-24T21:41:14+05:30"
+}
