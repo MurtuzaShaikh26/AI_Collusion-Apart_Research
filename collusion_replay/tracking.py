@@ -28,6 +28,7 @@ class Tracker:
             resume="allow",
             config={k: v for k, v in config.items() if k != "private"},
             tags=[str(config.get("case", "na")), str(config.get("provider", "na"))],
+            settings=wandb.Settings(x_service_wait=90),
         )
 
     def log(self, data: dict, step: int) -> None:
