@@ -179,7 +179,7 @@ async def _cmd_benchmark(args) -> None:
         "reasoning_effort": getattr(args, "reasoning_effort", None),
         "input_per_million_usd": args.input_per_million,
         "output_per_million_usd": args.output_per_million,
-        "price_source": "https://docs.fireworks.ai/serverless/pricing",
+        "price_source": "https://docs.fireworks.ai/serverless/pricing" if args.provider == "fireworks" else "local",
         "n": args.n,
         "concurrency": args.concurrency,
         "elapsed_s": elapsed,
@@ -192,7 +192,7 @@ async def _cmd_benchmark(args) -> None:
         "hidden_reasoning_calls": sum(1 for _lat, result in rows if result.hidden_reasoning),
         "ran_at_local": time.strftime("%Y-%m-%dT%H:%M:%S"),
     }
-    if args.provider != "mock":
+    if args.provider == "fireworks":
         add_spend(
             Path(args.results),
             summary["estimated_usd"],

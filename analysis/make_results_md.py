@@ -39,6 +39,12 @@ def _table(headers: list[str], rows: list[dict]) -> str:
     return "\n".join(lines)
 
 
+def _is_complete(row: dict) -> bool:
+    if "complete" in row:
+        return bool(row["complete"])
+    return row.get("rounds_completed") == row.get("rounds") and bool(row.get("rounds"))
+
+
 def render(results_root: Path) -> str:
     results_root = Path(results_root)
     summaries = _load_dir(results_root / "summaries")
@@ -50,7 +56,8 @@ def render(results_root: Path) -> str:
     spend_path = results_root / "spend.json"
     spend = json.loads(spend_path.read_text(encoding="utf-8")) if spend_path.exists() else None
     checks = [row for row in summaries if row.get("pipeline_check") or row.get("case") == "SMOKE" or row.get("provider") == "mock"]
-    scientific = [row for row in summaries if row not in checks]
+    finished = [row for row in summaries if row not in checks and _is_complete(row)]
+    incomplete = [row for row in summaries if row not in checks and row not in finished]
     parts = [
         "# RESULTS",
         "",
@@ -69,13 +76,27 @@ def render(results_root: Path) -> str:
         parts.append("")
     parts.append("## Game summaries (scientific)")
     parts.append("")
-    if not scientific:
-        parts.append("No scientific run summaries yet.")
+    if not finished:
+        parts.append("No completed scientific run summaries yet.")
     else:
         parts.append(
             _table(
                 ["run_id", "case", "seed", "model", "provider", "rounds_completed", "mean_gain_last10", "positive_control", "finished"],
-                scientific,
+                finished,
+            )
+        )
+    parts.append("")
+    parts.append("## Incomplete runs")
+    parts.append("")
+    parts.append("A stopped run is not a gate result, even if the rounds so far have a high gain.")
+    parts.append("")
+    if not incomplete:
+        parts.append("No incomplete runs.")
+    else:
+        parts.append(
+            _table(
+                ["run_id", "case", "seed", "model", "provider", "rounds_completed", "rounds", "mean_gain_last10", "finished"],
+                incomplete,
             )
         )
     parts.append("")

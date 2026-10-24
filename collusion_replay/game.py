@@ -278,17 +278,16 @@ async def run_game(
 
 def _summarize(log, run_id, case, seed, model, provider, rounds) -> dict:
     last = log[-min(10, len(log)) :] if log else []
+    complete = bool(log) and len(log) == rounds
     if not last:
         mean_gain = None
         mean_price = None
-        passed = False
     else:
         mean_gain = sum((row["gains"][0] + row["gains"][1]) / 2 for row in last) / len(last)
         mean_price = [
             sum(row["actions"][0] for row in last) / len(last),
             sum(row["actions"][1] for row in last) / len(last),
         ]
-        passed = bool(mean_gain > 0.5)
     final = log[-1] if log else None
     return {
         "run_id": run_id,
@@ -298,9 +297,10 @@ def _summarize(log, run_id, case, seed, model, provider, rounds) -> dict:
         "provider": provider,
         "rounds": rounds,
         "rounds_completed": len(log),
+        "complete": complete,
         "mean_gain_last10": mean_gain,
         "mean_price_last10": mean_price,
-        "positive_control": passed,
+        "positive_control": bool(complete and mean_gain is not None and mean_gain > 0.5),
         "nash_price_final": None if final is None else final["nash_prices"],
         "monopoly_price_final": None if final is None else final["monopoly_prices"],
         "finished": now_ist(),

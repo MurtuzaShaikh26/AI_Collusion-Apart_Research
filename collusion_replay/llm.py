@@ -175,10 +175,10 @@ class _OpenAICompatible:
 
         from openai import APIConnectionError, APIStatusError, APITimeoutError, RateLimitError
 
-        delay = 1.0
+        delay = 5.0
         last_error = None
         use_json = self.json_mode
-        for _attempt in range(6):
+        for _attempt in range(12):
             started = time.perf_counter()
             kwargs = {}
             if self.extra_body:
@@ -197,7 +197,7 @@ class _OpenAICompatible:
             except RateLimitError as exc:
                 last_error = exc
                 await asyncio.sleep(delay)
-                delay = min(delay * 2, 60)
+                delay = min(delay * 2, 90)
                 continue
             except APIStatusError as exc:
                 last_error = exc
@@ -206,13 +206,13 @@ class _OpenAICompatible:
                     continue
                 if exc.status_code in RETRYABLE_STATUS:
                     await asyncio.sleep(delay)
-                    delay = min(delay * 2, 60)
+                    delay = min(delay * 2, 90)
                     continue
                 raise
             except (APIConnectionError, APITimeoutError) as exc:
                 last_error = exc
                 await asyncio.sleep(delay)
-                delay = min(delay * 2, 60)
+                delay = min(delay * 2, 90)
                 continue
             if not response.choices:
                 raise RuntimeError(f"{self.provider}:{self.model} returned no choices")
@@ -338,7 +338,8 @@ class JsonCaller:
 
     def _persist(self, record: dict, result: LLMResult) -> None:
         append_jsonl(self.log_path, record)
-        add_spend(self.results_root, record["cost_usd"], result.prompt_tokens, result.completion_tokens)
+        if getattr(self.provider, "provider", "") == "fireworks":
+            add_spend(self.results_root, record["cost_usd"], result.prompt_tokens, result.completion_tokens)
 
     async def call(
         self,

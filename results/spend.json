@@ -1,7 +1,7 @@
 {
-  "cumulative_usd": 0.007162399999999999,
-  "calls": 70,
-  "prompt_tokens": 14888,
-  "completion_tokens": 2835,
-  "updated": "2026-10-24T19:52:33+05:30"
+  "cumulative_usd": 0.16907060000000004,
+  "calls": 430,
+  "prompt_tokens": 437566,
+  "completion_tokens": 32089,
+  "updated": "2026-10-24T20:31:30+05:30"
 }
