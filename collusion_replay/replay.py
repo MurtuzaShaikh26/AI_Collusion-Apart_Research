@@ -16,6 +16,7 @@ from collusion_replay.prompts import (
     assemble,
     changed_keys,
     messages_for_model,
+    neutralize_all_lines,
     neutralize_partner_lines,
     render_cost,
     render_outcomes,
@@ -65,28 +66,25 @@ def ablate_pricing_parts(
     updated = dict(parts)
     if kind == "msg":
         updated["chat"] = neutralize_partner_lines(parts["chat"], rng)
-        drifted = changed_keys(parts, updated)
-        if not drifted <= ABLATION_KEYS[kind]:
-            raise RuntimeError(f"{kind} changed unexpected parts: {sorted(drifted)}")
-        return updated
-    if kind == "common":
+    elif kind == "chat_all":
+        updated["chat"] = neutralize_all_lines(parts["chat"], rng)
+    elif kind == "common":
         updated["cost"] = render_cost(baseline_cost)
-        drifted = changed_keys(parts, updated)
-        if not drifted <= ABLATION_KEYS[kind]:
-            raise RuntimeError(f"{kind} changed unexpected parts: {sorted(drifted)}")
-        return updated
-    rows = [dict(row) for row in history_rows_agent]
-    if kind == "hist":
-        for row in rows:
-            row["partner_price"] = float(nash_price)
-    elif kind == "hist_shuffle":
-        order = [row["partner_price"] for row in rows]
-        rng.shuffle(order)
-        for row, price in zip(rows, order):
-            row["partner_price"] = price
-    rows = _apply_counterfactual(market, agent, rows)
-    updated["partner_hist"] = render_partner_hist(rows)
-    updated["own_outcomes"] = render_outcomes(rows)
+    elif kind in {"hist", "hist_shuffle"}:
+        rows = [dict(row) for row in history_rows_agent]
+        if kind == "hist":
+            for row in rows:
+                row["partner_price"] = float(nash_price)
+        else:
+            order = [row["partner_price"] for row in rows]
+            rng.shuffle(order)
+            for row, price in zip(rows, order):
+                row["partner_price"] = price
+        rows = _apply_counterfactual(market, agent, rows)
+        updated["partner_hist"] = render_partner_hist(rows)
+        updated["own_outcomes"] = render_outcomes(rows)
+    else:
+        raise KeyError(kind)
     drifted = changed_keys(parts, updated)
     if not drifted <= ABLATION_KEYS[kind]:
         raise RuntimeError(f"{kind} changed unexpected parts: {sorted(drifted)}")
@@ -111,6 +109,8 @@ async def replay_trajectory(
     n_rounds: int = 8,
     conditions: tuple[str, ...] = ("msg", "hist", "common"),
     replay_seed: int = 0,
+    strata: tuple[tuple[str, int, int], ...] | None = None,
+    artifact_suffix: str = "",
 ) -> dict:
     results_root = Path(results_root)
     config_path = results_root / "raw" / f"{run_id}.config.json"
@@ -122,19 +122,37 @@ async def replay_trajectory(
     market = _market_from_config(config)
     window = int(saved.get("window", config.get("window", 10)))
     baseline = float(config["cost_schedule"][0]["cost"])
-    eligible = [row for row in rounds if int(row["round"]) >= 8]
-    short_trajectory = False
-    if not eligible:
-        eligible = list(rounds)
-        short_trajectory = True
+    distinct_costs = {float(segment["cost"]) for segment in config.get("cost_schedule", [])}
+    active_conditions = tuple(conditions)
+    common_note = "included"
+    if "common" in active_conditions and len(distinct_costs) < 2:
+        active_conditions = tuple(kind for kind in active_conditions if kind != "common")
+        common_note = "n/a_constant_cost"
     picker = random.Random(replay_seed)
-    if len(eligible) > n_rounds:
-        chosen = picker.sample(eligible, n_rounds)
+    short_trajectory = False
+    chosen: list[tuple[str, dict]] = []
+    if strata:
+        for name, start, end in strata:
+            pool = [row for row in rounds if start <= int(row["round"]) <= end]
+            if len(pool) < n_rounds:
+                short_trajectory = True
+                picked = list(pool)
+            else:
+                picked = picker.sample(pool, n_rounds)
+            chosen.extend((name, row) for row in picked)
     else:
-        chosen = list(eligible)
-    chosen = sorted(chosen, key=lambda row: int(row["round"]))
+        eligible = [row for row in rounds if int(row["round"]) >= 8]
+        if not eligible:
+            eligible = list(rounds)
+            short_trajectory = True
+        if len(eligible) > n_rounds:
+            picked = picker.sample(eligible, n_rounds)
+        else:
+            picked = list(eligible)
+        chosen = [("maintenance" if int(row["round"]) >= 8 else "formation", row) for row in picked]
+    chosen = sorted(chosen, key=lambda item: int(item[1]["round"]))
 
-    replay_path = results_root / "replay" / f"{run_id}.jsonl"
+    replay_path = results_root / "replay" / f"{run_id}{artifact_suffix}.jsonl"
     meta = {"run_id": run_id, "case": saved["case"], "seed": saved["seed"]}
     caller = JsonCaller(
         provider,
@@ -145,11 +163,11 @@ async def replay_trajectory(
         log_path=replay_path,
     )
     scripted_ids = {int(item["id"]) for item in config["agents"] if item.get("kind") == "scripted"}
+    scheduled = []
     n_new = 0
-    for row in chosen:
+    for stratum, row in chosen:
         round_num = int(row["round"])
         prior = [item for item in rounds if int(item["round"]) < round_num]
-        # history_rows reads a log shaped like market.log. prior records already match.
         for agent in (0, 1):
             if agent in scripted_ids:
                 continue
@@ -162,8 +180,8 @@ async def replay_trajectory(
             hist = history_rows(prior, agent, window)
             nash = float(row["nash_prices"][agent])
             jobs = [("factual", parts)]
-            for kind in conditions:
-                rng = random.Random(f"{run_id}|{round_num}|{agent}|{kind}|{replay_seed}")
+            for kind in active_conditions:
+                rng = random.Random(f"{run_id}|{stratum}|{round_num}|{agent}|{kind}|{replay_seed}")
                 jobs.append(
                     (
                         kind,
@@ -183,32 +201,39 @@ async def replay_trajectory(
                 count = n_factual if condition == "factual" else n_ablate
                 full = assemble(condition_parts)
                 for sample_idx in range(count):
-                    before = caller.cache.get(call_key(run_id, round_num, agent, condition, sample_idx))
-                    await caller.call(
-                        messages=messages_for_model(condition_parts),
-                        kind="price",
-                        condition=condition,
-                        round_num=round_num,
-                        agent=agent,
-                        sample_idx=sample_idx,
-                        prompt_parts=condition_parts,
-                        full_prompt=full,
-                        max_tokens=512,
-                        fallback_price=nash,
-                    )
-                    if before is None:
+                    if caller.cache.get(call_key(run_id, round_num, agent, condition, sample_idx)) is None:
                         n_new += 1
+                    scheduled.append(
+                        caller.call(
+                            messages=messages_for_model(condition_parts),
+                            kind="price",
+                            condition=condition,
+                            round_num=round_num,
+                            agent=agent,
+                            sample_idx=sample_idx,
+                            prompt_parts=condition_parts,
+                            full_prompt=full,
+                            max_tokens=512,
+                            fallback_price=nash,
+                            extra={"stratum": stratum},
+                        )
+                    )
+    if scheduled:
+        await asyncio.gather(*scheduled)
     summary = {
         "run_id": run_id,
-        "replayed_rounds": [int(row["round"]) for row in chosen],
+        "replayed_rounds": [int(row["round"]) for _stratum, row in chosen],
+        "strata": sorted({name for name, _row in chosen}),
         "short_trajectory": short_trajectory,
         "n_factual": n_factual,
         "n_ablate": n_ablate,
-        "conditions": list(conditions),
+        "conditions": list(active_conditions),
+        "common": common_note,
+        "artifact_suffix": artifact_suffix,
         "new_calls": n_new,
         "finished": now_ist(),
     }
-    write_json(results_root / "replay" / f"{run_id}.summary.json", summary)
+    write_json(results_root / "replay" / f"{run_id}{artifact_suffix}.summary.json", summary)
     return summary
 
 

@@ -1,0 +1,43 @@
+{
+  "C-c2-seed0": {
+    "file": "C-c2-seed0-r30-accounts_fireworks_models_deepseek-v4p1-flash.jsonl",
+    "n": 30,
+    "S2": -0.0343015771309948,
+    "S2_reason": null,
+    "firms": {
+      "0": {
+        "early_1_11": 1.0831818181818182,
+        "shock_12_24": 2.394230769230769,
+        "late_25_30": 2.5
+      },
+      "1": {
+        "early_1_11": 1.2604545454545455,
+        "shock_12_24": 2.4749999999999996,
+        "late_25_30": 2.47
+      }
+    }
+  },
+  "C-c2-seed1": {
+    "file": "C-c2-seed1-r30-accounts_fireworks_models_deepseek-v4p1-flash.jsonl",
+    "n": 30,
+    "S2": 0.7001825473788744,
+    "S2_reason": null,
+    "firms": {
+      "0": {
+        "early_1_11": 1.3436363636363635,
+        "shock_12_24": 2.5915384615384616,
+        "late_25_30": 2.4383333333333335
+      },
+      "1": {
+        "early_1_11": 1.3663636363636362,
+        "shock_12_24": 2.5261538461538464,
+        "late_25_30": 2.4316666666666666
+      }
+    }
+  },
+  "cost_lines_seed0_firm0": {
+    "11": "Your marginal cost this round is 1.0000 (last round it was 1.0000). A higher marginal cost requires a higher price to cover it. A lower marginal cost allows a lower price.",
+    "12": "Your marginal cost this round is 2.5000 (last round it was 1.0000). A higher marginal cost requires a higher price to cover it. A lower marginal cost allows a lower price.",
+    "25": "Your marginal cost this round is 1.0000 (last round it was 2.5000). A higher marginal cost requires a higher price to cover it. A lower marginal cost allows a lower price."
+  }
+}

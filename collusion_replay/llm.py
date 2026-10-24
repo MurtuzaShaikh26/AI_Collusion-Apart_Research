@@ -354,6 +354,7 @@ class JsonCaller:
         full_prompt: str,
         max_tokens: int = 512,
         fallback_price: float | None = None,
+        extra: dict | None = None,
     ) -> dict:
         key = call_key(self.meta["run_id"], round_num, agent, condition, sample_idx)
         cached = self.cache.get(key)
@@ -368,6 +369,8 @@ class JsonCaller:
             record = self._record_shell(
                 key, attempt, condition, round_num, agent, sample_idx, prompt_parts, full_prompt, result.text, hidden, result
             )
+            if extra:
+                record.update(extra)
             try:
                 obj = parse_json_object(result.text)
                 if kind == "price":

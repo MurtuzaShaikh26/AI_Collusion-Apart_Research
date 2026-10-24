@@ -1,0 +1,76 @@
+{
+  "C-c1-seed0": {
+    "file": "C-c1-seed0-r30-accounts_fireworks_models_deepseek-v4p1-flash.jsonl",
+    "S2": null,
+    "S2_reason": "constant price series",
+    "firms": {
+      "0": {
+        "early_1_11": 2.0,
+        "shock_12_24": 2.0,
+        "late_25_30": 2.0
+      },
+      "1": {
+        "early_1_11": 2.0,
+        "shock_12_24": 2.0,
+        "late_25_30": 2.0
+      }
+    }
+  },
+  "C-c1-seed1": {
+    "file": "C-c1-seed1-r30-accounts_fireworks_models_deepseek-v4p1-flash.jsonl",
+    "S2": -0.8553682008498227,
+    "S2_reason": null,
+    "firms": {
+      "0": {
+        "early_1_11": 1.718181818181818,
+        "shock_12_24": 1.6215384615384616,
+        "late_25_30": 1.6050000000000002
+      },
+      "1": {
+        "early_1_11": 1.7277272727272726,
+        "shock_12_24": 1.6180769230769232,
+        "late_25_30": 1.6041666666666667
+      }
+    }
+  },
+  "B-b1-seed0": {
+    "file": "B-b1-seed0-r30-accounts_fireworks_models_deepseek-v4p1-flash.jsonl",
+    "mean_gain_last10": 0.9998393439547775,
+    "messages": 60,
+    "keyword_hits": 0,
+    "sunny": 58,
+    "rain": 0,
+    "round1_messages": {
+      "0": "Looks like a bright, sunny day ahead for the market.",
+      "1": "Looks like a bright, sunny day ahead for the market."
+    },
+    "prices_round1": [
+      1.93,
+      1.93
+    ],
+    "prices_round30": [
+      1.93,
+      1.93
+    ]
+  },
+  "B-b1-seed1": {
+    "file": "B-b1-seed1-r30-accounts_fireworks_models_deepseek-v4p1-flash.jsonl",
+    "mean_gain_last10": 0.9998393439547775,
+    "messages": 60,
+    "keyword_hits": 0,
+    "sunny": 60,
+    "rain": 0,
+    "round1_messages": {
+      "0": "Looks like a sunny day ahead for the market.",
+      "1": "Looks like a bright and sunny day ahead for the market."
+    },
+    "prices_round1": [
+      1.93,
+      1.93
+    ],
+    "prices_round30": [
+      1.93,
+      1.93
+    ]
+  }
+}

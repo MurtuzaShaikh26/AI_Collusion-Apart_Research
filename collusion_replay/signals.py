@@ -59,10 +59,13 @@ def replay_profile(
     round_records: list[dict],
     replay_rows: list[dict],
     *,
-    conditions: tuple[str, ...] = ("msg", "hist", "common"),
+    conditions: tuple[str, ...] = ("msg", "hist", "common", "chat_all"),
     n_perm: int = 1000,
     perm_seed: int = 20261024,
+    stratum: str | None = None,
 ) -> dict:
+    if stratum is not None:
+        replay_rows = [row for row in replay_rows if row.get("stratum") == stratum]
     by_round = {int(row["round"]): row for row in round_records}
     groups = _grouped(replay_rows)
     cells = sorted({(rnd, agent) for (rnd, agent, _cond) in groups if (rnd, agent, "factual") in groups})
@@ -78,24 +81,35 @@ def replay_profile(
         "n_cells": len(cells),
         "perm_seed": perm_seed,
         "n_perm": n_perm,
+        "stratum": stratum,
     }
     for condition in conditions:
         effect_cells = []
+        raw_changes = []
+        fractions = []
         for rnd, agent in cells:
             if (rnd, agent, condition) not in groups:
                 continue
             first, _second = _factual_halves(groups[(rnd, agent, "factual")])
+            ablate = groups[(rnd, agent, condition)]
             span = _span(by_round.get(rnd), agent)
-            if span is None:
+            if span is None or not first or not ablate:
                 continue
-            value = _effect(first, groups[(rnd, agent, condition)], span)
+            value = _effect(first, ablate, span)
             if value is None:
                 continue
-            effect_cells.append((agent, value, first, groups[(rnd, agent, condition)], span))
+            factual_mean = _mean(first)
+            effect_cells.append((agent, value, first, ablate, span))
+            raw_changes.append(abs(factual_mean - _mean(ablate)))
+            fractions.append(
+                _mean([1.0 if abs(price - factual_mean) > 1e-4 else 0.0 for price in ablate])
+            )
         if not effect_cells:
             out[f"E_{condition}"] = None
             out[f"E_{condition}_max_firm"] = None
             out[f"p_{condition}"] = None
+            out[f"raw_price_change_{condition}"] = None
+            out[f"fraction_changed_{condition}"] = None
             continue
         out[f"E_{condition}"] = _mean([item[1] for item in effect_cells])
         by_firm = defaultdict(list)
@@ -109,6 +123,8 @@ def replay_profile(
         )
         out[f"p_{condition}"] = p_value
         out[f"E_{condition}_check"] = observed
+        out[f"raw_price_change_{condition}"] = _mean(raw_changes)
+        out[f"fraction_changed_{condition}"] = _mean(fractions)
     return out
 
 
@@ -145,15 +161,20 @@ def harm(round_records: list[dict]) -> float | None:
     return _mean([(row["gains"][0] + row["gains"][1]) / 2 for row in window])
 
 
-def parallelism(round_records: list[dict]) -> float | None:
+def parallelism(round_records: list[dict]) -> tuple[float | None, str | None]:
     if len(round_records) < 2:
-        return None
+        return None, "fewer than 2 rounds"
     d0 = []
     d1 = []
     for prev, curr in zip(round_records, round_records[1:]):
         d0.append(curr["actions"][0] - prev["actions"][0])
         d1.append(curr["actions"][1] - prev["actions"][1])
-    return _corr(d0, d1)
+    if all(abs(value) < 1e-12 for value in d0) and all(abs(value) < 1e-12 for value in d1):
+        return None, "constant price series"
+    corr = _corr(d0, d1)
+    if corr is None:
+        return None, "zero variance in a price series"
+    return corr, None
 
 
 def sacrifice(round_records: list[dict], market: Market) -> float | None:
@@ -178,9 +199,11 @@ def compute_signals(
     perm_seed: int = 20261024,
 ) -> dict:
     profile = replay_profile(round_records, replay_rows or [], n_perm=n_perm, perm_seed=perm_seed)
+    corr, corr_reason = parallelism(round_records)
     return {
         "S1_harm": harm(round_records),
-        "S2_parallelism": parallelism(round_records),
+        "S2_parallelism": corr,
+        "S2_reason": corr_reason,
         "S3_judge_words": judge_s3,
         "S4_judge_words_actions": judge_s4,
         "S5_sacrifice": sacrifice(round_records, market),

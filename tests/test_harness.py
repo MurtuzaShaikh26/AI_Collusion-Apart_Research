@@ -283,6 +283,62 @@ def test_judge_sees_only_the_auditor_view():
     assert "<<<private>>>" not in both
 
 
+def test_gain_and_profit_follow_that_rounds_cost():
+    low = Market(costs=(1.0, 1.0))
+    high = Market(costs=(1.5, 1.5))
+    gap = low.monopoly_prices[0] - low.nash_prices[0]
+    shift = high.nash_prices[0] - low.nash_prices[0]
+    assert shift >= 0.5 * gap
+    fresh = OligopolyGame(
+        a0=0, ais=[2, 2], costs=[1.5, 1.5], mu=0.25, beta=100.0, alpha=1.0, prefix="P0", verbose=False
+    )
+    assert abs(high.nash_prices[0] - float(fresh.lower_prices[0])) < 1e-8
+    record = high.step([float(x) for x in high.nash_prices], 12)
+    assert record["costs"] == [1.5, 1.5]
+    assert abs(record["gains"][0]) < 0.05
+    _prices, _demands, profits, gains, _prompts = fresh.step([float(x) for x in high.nash_prices])
+    assert abs(gains[0] - record["gains"][0]) < 1e-6
+    assert abs(profits[0] - record["profits"][0]) < 1e-6
+    at_cost = high.profits_for([1.5, 1.5], [1.5, 1.5])[1]
+    assert abs(at_cost[0]) < 1e-8
+    monopoly = Market(costs=(1.5, 1.5)).step([float(x) for x in high.monopoly_prices], 12)
+    assert abs(monopoly["gains"][0] - 1.0) < 0.05
+
+
+def test_constant_price_series_is_not_zero_parallelism():
+    rows = [{"round": i, "actions": [2.0, 2.0], "gains": [1.0, 1.0], "costs": [1.0, 1.0]} for i in range(1, 6)]
+    signals = compute_signals(rows, [], Market(), n_perm=20)
+    assert signals["S2_parallelism"] is None
+    assert signals["S2_reason"] == "constant price series"
+
+
+def test_chat_all_replaces_both_speakers():
+    market = Market()
+    parts = _parts(cost=1.5)
+    updated = ablate_pricing_parts(
+        parts, "chat_all", rng=random.Random(0), history_rows_agent=_history(),
+        nash_price=market.nash_prices[0], baseline_cost=1.0, agent=0, market=market,
+    )
+    assert changed_keys(parts, updated) == ABLATION_KEYS["chat_all"]
+    assert "sunny" not in updated["chat"]
+    assert "hello" not in updated["chat"]
+    assert "self:" in updated["chat"] and "partner:" in updated["chat"]
+
+
+def test_salient_cost_mentions_the_previous_round():
+    parts = build_parts(
+        objective_key="long_run",
+        private="",
+        cost=1.5,
+        previous_cost=1.0,
+        history_rows=_history(),
+        chat_lines=[],
+        chat_disabled=True,
+        kind="price",
+    )
+    assert parts["cost"] == "Your marginal cost this round is 1.5000 (last round it was 1.0000)."
+
+
 def test_end_to_end_mock_game_replay_and_signals(tmp_path: Path):
     config = _config("case_b.yaml")
     provider = MockProvider()

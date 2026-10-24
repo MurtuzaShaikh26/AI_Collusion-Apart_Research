@@ -14,9 +14,10 @@ from collusion_replay.prompts import assemble, build_parts, messages_for_model
 from collusion_replay.tracking import Tracker
 
 
-def make_run_id(case: str, seed: int, model: str, rounds: int) -> str:
+def make_run_id(case: str, seed: int, model: str, rounds: int, tag: str | None = None) -> str:
     slug = re.sub(r"[^A-Za-z0-9._-]+", "_", model)[-48:]
-    return f"{case}-seed{seed}-r{rounds}-{slug}"
+    prefix = f"{case}-{tag}" if tag else case
+    return f"{prefix}-seed{seed}-r{rounds}-{slug}"
 
 
 def cost_for_round(schedule: list[dict], round_num: int, default: float = 1.0) -> float:
@@ -118,7 +119,7 @@ async def run_game(
     window = int(config.get("window", 10))
     chat_on = bool(config.get("chat", True))
     case = str(config["case"])
-    run_id = make_run_id(case, seed, model, rounds)
+    run_id = make_run_id(case, seed, model, rounds, config.get("run_tag"))
     results_root = Path(results_root)
     raw_dir = results_root / "raw"
     calls_path = raw_dir / f"{run_id}.calls.jsonl"
@@ -174,6 +175,9 @@ async def run_game(
             cost = cost_for_round(schedule, round_num, default=1.0)
             market.set_costs([cost, cost])
             histories = {agent: history_rows(market.log, agent, window) for agent in (0, 1)}
+            previous = {
+                agent: (float(histories[agent][-1]["cost"]) if histories[agent] else None) for agent in (0, 1)
+            }
 
             async def do_chat(agent: int):
                 spec = specs[agent]
@@ -182,6 +186,8 @@ async def run_game(
                     objective_key=objective,
                     private=private,
                     cost=cost,
+                    previous_cost=previous[agent],
+                    cost_note=str(config.get("cost_note") or ""),
                     history_rows=histories[agent],
                     chat_lines=chat_lines_for(market.log, agent, window, None, None),
                     chat_disabled=not chat_on,
@@ -218,6 +224,8 @@ async def run_game(
                     objective_key=objective,
                     private=private,
                     cost=cost,
+                    previous_cost=previous[agent],
+                    cost_note=str(config.get("cost_note") or ""),
                     history_rows=histories[agent],
                     chat_lines=chat_lines_for(market.log, agent, window, round_num if chat_on else None, current_messages),
                     chat_disabled=not chat_on,

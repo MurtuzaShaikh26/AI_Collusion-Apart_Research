@@ -150,6 +150,17 @@ def render(results_root: Path) -> str:
             )
         )
     parts.append("")
+    analysis = results_root / "analysis" / "hypotheses.json"
+    parts.append("## Overnight hypotheses")
+    parts.append("")
+    if not analysis.exists():
+        parts.append("No hypothesis file yet.")
+    else:
+        payload = json.loads(analysis.read_text(encoding="utf-8"))
+        parts.append("Source: `results/analysis/hypotheses.json`.")
+        parts.append("")
+        parts.append(_table(["id", "verdict", "detail"], payload.get("rows", [])))
+    parts.append("")
     return "\n".join(parts) + "\n"
 
 

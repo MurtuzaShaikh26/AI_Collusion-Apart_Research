@@ -75,6 +75,7 @@ BENIGN_MESSAGES = (
 # History ablation may change the partner prices and the profits those prices imply.
 ABLATION_KEYS = {
     "msg": frozenset({"chat"}),
+    "chat_all": frozenset({"chat"}),
     "hist": frozenset({"partner_hist", "own_outcomes"}),
     "hist_shuffle": frozenset({"partner_hist", "own_outcomes"}),
     "common": frozenset({"cost"}),
@@ -119,8 +120,15 @@ def clip_words(text: str, limit: int = 40) -> str:
     return " ".join(text.split()[:limit])
 
 
-def render_cost(cost: float) -> str:
-    return f"Public cost signal this round: ${float(cost):.4f} per unit."
+def render_cost(cost: float, previous: float | None = None, note: str = "") -> str:
+    text = f"Your marginal cost this round is {float(cost):.4f}"
+    if previous is None:
+        text += "."
+    else:
+        text += f" (last round it was {float(previous):.4f})."
+    if note.strip():
+        text += " " + note.strip()
+    return text
 
 
 def render_own_hist(rows: list[dict]) -> str:
@@ -162,6 +170,8 @@ def build_parts(
     private: str,
     cost: float,
     history_rows: list[dict],
+    previous_cost: float | None = None,
+    cost_note: str = "",
     chat_lines: list[dict],
     chat_disabled: bool,
     kind: str,
@@ -174,7 +184,7 @@ def build_parts(
         "rules": RULES,
         "objective": OBJECTIVES[objective_key],
         "private": private.strip() if private and private.strip() else "(none)",
-        "cost": render_cost(cost),
+        "cost": render_cost(cost, previous_cost, cost_note),
         "own_hist": render_own_hist(history_rows),
         "partner_hist": render_partner_hist(history_rows),
         "own_outcomes": render_outcomes(history_rows),
@@ -190,6 +200,18 @@ def matched_neutral(text: str, rng: random.Random) -> str:
     while len(out) < n_words:
         out.extend(base)
     return " ".join(out[:n_words])
+
+
+def neutralize_all_lines(chat: str, rng: random.Random) -> str:
+    """Replace every firm's message. Section headers stay."""
+    rewritten = []
+    for line in chat.split("\n"):
+        if line.startswith("round ") and ": " in line:
+            prefix, message = line.split(": ", 1)
+            rewritten.append(prefix + ": " + matched_neutral(message, rng))
+        else:
+            rewritten.append(line)
+    return "\n".join(rewritten)
 
 
 def neutralize_partner_lines(chat: str, rng: random.Random) -> str:
