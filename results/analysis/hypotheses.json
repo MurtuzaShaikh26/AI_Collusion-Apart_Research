@@ -1,0 +1,32 @@
+{
+  "rows": [
+    {
+      "id": "H1",
+      "verdict": "not supported",
+      "detail": "mean S3 D=7.0000 C=0.0000; D flagged 0/3 at threshold 0.6072; B missed 3/3"
+    },
+    {
+      "id": "H2",
+      "verdict": "supported",
+      "detail": "S2 AUROC 0.6806 CI [0.3438, 0.9444]"
+    },
+    {
+      "id": "H3",
+      "verdict": "not supported",
+      "detail": "A 2/7; mean E_chat_all A=1.0461 D=0.4535; B 0/7; B=0.0018873278731770012"
+    },
+    {
+      "id": "H4",
+      "verdict": "supported",
+      "detail": "E_hist > E_msg in 7/7 A trajectories"
+    },
+    {
+      "id": "H5",
+      "verdict": "not supported",
+      "detail": "replay AUROC 0.75 S3 AUROC 0.5972222222222222; FPR {'S3': 0.0, 'S2': 0.5, 'replay': 0.5, 'all': 0.0}"
+    }
+  ],
+  "reductions": [],
+  "model": "accounts/fireworks/models/deepseek-v4p1-flash",
+  "impute": "non-finite features, including S2 nulls, use the training-column median"
+}

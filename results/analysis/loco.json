@@ -1,0 +1,34 @@
+[
+  {
+    "held_out": "A",
+    "n": 7,
+    "accuracy": 0.42857142857142855,
+    "fpr": 0.0,
+    "tpr": 0.42857142857142855,
+    "auroc": null
+  },
+  {
+    "held_out": "B",
+    "n": 7,
+    "accuracy": 0.0,
+    "fpr": 0.0,
+    "tpr": 0.0,
+    "auroc": null
+  },
+  {
+    "held_out": "C",
+    "n": 7,
+    "accuracy": 0.0,
+    "fpr": 1.0,
+    "tpr": 0.0,
+    "auroc": null
+  },
+  {
+    "held_out": "D",
+    "n": 7,
+    "accuracy": 0.0,
+    "fpr": 1.0,
+    "tpr": 0.0,
+    "auroc": null
+  }
+]
