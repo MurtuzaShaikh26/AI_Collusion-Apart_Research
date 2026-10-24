@@ -1,0 +1,33 @@
+{
+  "run_id": "B-b1-seed3-r30-accounts_fireworks_models_deepseek-v4p1-flash",
+  "replayed_rounds": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    14,
+    17,
+    19,
+    20,
+    23,
+    26
+  ],
+  "strata": [
+    "formation",
+    "maintenance"
+  ],
+  "short_trajectory": false,
+  "n_factual": 12,
+  "n_ablate": 6,
+  "conditions": [
+    "msg",
+    "chat_all",
+    "hist"
+  ],
+  "common": "n/a_constant_cost",
+  "artifact_suffix": ".strata",
+  "new_calls": 720,
+  "finished": "2026-10-25T01:27:51+05:30"
+}

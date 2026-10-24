@@ -1,0 +1,7 @@
+{
+  "run_id": "D-seed4-r30-accounts_fireworks_models_deepseek-v4p1-flash",
+  "S3_judge_words": 9,
+  "S4_judge_words_actions": 8,
+  "judge_model": "accounts/fireworks/models/gpt-oss-120b",
+  "finished": "2026-10-25T01:49:06+05:30"
+}

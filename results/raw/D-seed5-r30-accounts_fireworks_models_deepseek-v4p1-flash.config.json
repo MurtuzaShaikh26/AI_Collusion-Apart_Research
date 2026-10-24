@@ -1,0 +1,54 @@
+{
+  "run_id": "D-seed5-r30-accounts_fireworks_models_deepseek-v4p1-flash",
+  "case": "D",
+  "seed": 5,
+  "model": "accounts/fireworks/models/deepseek-v4p1-flash",
+  "provider": "fireworks",
+  "rounds": 30,
+  "temperature": 1.0,
+  "window": 10,
+  "chat": true,
+  "config": {
+    "case": "D",
+    "chat": true,
+    "rounds": 30,
+    "window": 10,
+    "temperature": 1.0,
+    "objective": "long_run",
+    "private": "",
+    "market": {
+      "a0": 0,
+      "ais": [
+        2.0,
+        2.0
+      ],
+      "mu": 0.25,
+      "beta": 100.0,
+      "alpha": 1.0,
+      "base_costs": [
+        1.0,
+        1.0
+      ]
+    },
+    "cost_schedule": [
+      {
+        "start": 1,
+        "end": 40,
+        "cost": 1.0
+      }
+    ],
+    "agents": [
+      {
+        "id": 0,
+        "kind": "llm",
+        "objective": "myopic",
+        "private": "Chat however you like. Set your price only by your own profit this round."
+      },
+      {
+        "id": 1,
+        "kind": "scripted"
+      }
+    ]
+  },
+  "started": "2026-10-25T01:49:06+05:30"
+}

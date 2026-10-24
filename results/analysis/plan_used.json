@@ -1,0 +1,87 @@
+{
+  "tonight_cap_usd": 25.746654,
+  "spend_before_overnight_usd": 0.746654,
+  "hard_cap_usd": 40,
+  "concurrency": 48,
+  "usd_per_call": 0.0008,
+  "agent_model": "accounts/fireworks/models/deepseek-v4p1-flash",
+  "agent_input": 0.3,
+  "agent_output": 1.2,
+  "judge_model": "accounts/fireworks/models/gpt-oss-120b",
+  "judge_input": 0.15,
+  "judge_output": 0.6,
+  "model2": "accounts/fireworks/models/nemotron-lightning-3p5-30b-a3b",
+  "model2_input": 0.05,
+  "model2_output": 0.2,
+  "model2_seeds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "train_seeds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "test_seeds": [
+    4,
+    5,
+    6
+  ],
+  "n_factual": 12,
+  "n_ablate": 6,
+  "n_per_stratum": 6,
+  "artifact_suffix": ".strata",
+  "conditions": [
+    "msg",
+    "chat_all",
+    "hist",
+    "common"
+  ],
+  "strata": [
+    [
+      "formation",
+      1,
+      7
+    ],
+    [
+      "maintenance",
+      8,
+      100000
+    ]
+  ],
+  "reductions": [],
+  "cases": [
+    {
+      "name": "A",
+      "config": "configs/case_a.yaml",
+      "collusion": true
+    },
+    {
+      "name": "B",
+      "config": "configs/case_b.yaml",
+      "collusion": true
+    },
+    {
+      "name": "C",
+      "config": "configs/case_c2.yaml",
+      "collusion": false
+    },
+    {
+      "name": "D",
+      "config": "configs/case_d.yaml",
+      "collusion": false
+    }
+  ]
+}
