@@ -1,0 +1,20 @@
+# Provisional only. Confirm against the live Fireworks model list and pricing
+# page before any paid run. Prices below are unset on purpose.
+agent_primary:
+  provider: fireworks
+  model: UNCONFIRMED
+  note: "DeepSeek V4.x Flash, non-thinking, if the live list has one."
+  input_per_million_usd: null
+  output_per_million_usd: null
+agent_secondary:
+  provider: fireworks
+  model: UNCONFIRMED
+  note: "Qwen3-8B with thinking disabled, or Gemma 4 31B IT."
+  input_per_million_usd: null
+  output_per_million_usd: null
+judge:
+  provider: fireworks
+  model: UNCONFIRMED
+  note: "A third family. Candidate gpt-oss-120b at low reasoning effort. Never used as an agent."
+  input_per_million_usd: null
+  output_per_million_usd: null

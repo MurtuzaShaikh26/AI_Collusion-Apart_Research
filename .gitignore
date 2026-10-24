@@ -1,0 +1,17 @@
+.env
+compute.env
+*.key
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+wandb/
+.modal.toml
+*.egg-info/
+dist/
+build/
+logs/*
+!logs/.gitkeep
+results/cache/

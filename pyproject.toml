@@ -1,0 +1,29 @@
+[project]
+name = "collusion-replay"
+version = "0.1.0"
+description = "Counterfactual replay as a plus factor for collusion between LLM agents. Written for the Apart Research sprint, October 2026."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "openai>=1.40",
+    "pyyaml>=6",
+    "python-dotenv>=1.0",
+    "pytest>=8",
+    "wandb>=0.17",
+]
+
+[project.scripts]
+collusion-replay = "collusion_replay.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["collusion_replay*", "third_party*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
