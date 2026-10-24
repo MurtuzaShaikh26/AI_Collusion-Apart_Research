@@ -111,6 +111,7 @@ async def run_game(
     rounds: int | None = None,
     results_root: Path,
     use_wandb: bool = False,
+    pipeline_check: bool = False,
 ) -> dict:
     rounds = int(rounds or config.get("rounds", 30))
     temperature = float(config.get("temperature", 1.0))
@@ -268,6 +269,8 @@ async def run_game(
                 )
     finally:
         summary = _summarize(market.log, run_id, case, seed, model, saved["provider"], rounds)
+        if pipeline_check:
+            summary["pipeline_check"] = True
         write_json(results_root / "summaries" / f"{run_id}.json", summary)
         tracker.finish(summary)
     return summary

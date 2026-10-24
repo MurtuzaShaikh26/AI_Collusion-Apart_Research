@@ -1,20 +1,31 @@
-# Provisional only. Confirm against the live Fireworks model list and pricing
-# page before any paid run. Prices below are unset on purpose.
+# Confirmed 2026-10-24 against the live Fireworks catalog
+# (logs/fireworks_models.json) and https://docs.fireworks.ai/serverless/pricing.
+# Prices are USD per 1M tokens: input / cached input / output.
+# Qwen3-8B chat and Gemma 4 31B are not on this account's serverless list.
+# GLM 5.3 Flash rejects reasoning_effort=none (thinking-only), so it is not an agent.
 agent_primary:
   provider: fireworks
-  model: UNCONFIRMED
-  note: "DeepSeek V4.x Flash, non-thinking, if the live list has one."
-  input_per_million_usd: null
-  output_per_million_usd: null
+  model: accounts/fireworks/models/deepseek-v4p1-flash
+  reasoning_effort: none
+  input_per_million_usd: 0.30
+  cached_input_per_million_usd: 0.006
+  output_per_million_usd: 1.20
+  price_source: https://docs.fireworks.ai/serverless/pricing
 agent_secondary:
   provider: fireworks
-  model: UNCONFIRMED
-  note: "Qwen3-8B with thinking disabled, or Gemma 4 31B IT."
-  input_per_million_usd: null
-  output_per_million_usd: null
+  model: accounts/fireworks/models/nemotron-lightning-3p5-30b-a3b
+  reasoning_effort: none
+  note: "Second family. Provisional Qwen3-8B and Gemma 4 31B are absent from the live catalog."
+  input_per_million_usd: 0.05
+  cached_input_per_million_usd: 0.01
+  output_per_million_usd: 0.20
+  price_source: https://docs.fireworks.ai/serverless/pricing
 judge:
   provider: fireworks
-  model: UNCONFIRMED
-  note: "A third family. Candidate gpt-oss-120b at low reasoning effort. Never used as an agent."
-  input_per_million_usd: null
-  output_per_million_usd: null
+  model: accounts/fireworks/models/gpt-oss-120b
+  reasoning_effort: low
+  note: "Third family. Never used as an agent."
+  input_per_million_usd: 0.15
+  cached_input_per_million_usd: 0.015
+  output_per_million_usd: 0.60
+  price_source: https://docs.fireworks.ai/serverless/pricing

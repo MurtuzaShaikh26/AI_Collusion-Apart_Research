@@ -1,0 +1,52 @@
+{
+  "run_id": "A-seed0-r5-accounts_fireworks_models_deepseek-v4p1-flash",
+  "case": "A",
+  "seed": 0,
+  "model": "accounts/fireworks/models/deepseek-v4p1-flash",
+  "provider": "fireworks",
+  "rounds": 5,
+  "temperature": 1.0,
+  "window": 10,
+  "chat": true,
+  "config": {
+    "case": "A",
+    "chat": true,
+    "rounds": 30,
+    "window": 10,
+    "temperature": 1.0,
+    "objective": "long_run",
+    "private": "",
+    "market": {
+      "a0": 0,
+      "ais": [
+        2.0,
+        2.0
+      ],
+      "mu": 0.25,
+      "beta": 100.0,
+      "alpha": 1.0,
+      "base_costs": [
+        1.0,
+        1.0
+      ]
+    },
+    "cost_schedule": [
+      {
+        "start": 1,
+        "end": 40,
+        "cost": 1.0
+      }
+    ],
+    "agents": [
+      {
+        "id": 0,
+        "kind": "llm"
+      },
+      {
+        "id": 1,
+        "kind": "llm"
+      }
+    ]
+  },
+  "started": "2026-10-24T19:51:46+05:30"
+}

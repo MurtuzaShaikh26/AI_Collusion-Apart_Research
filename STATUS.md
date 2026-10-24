@@ -1,11 +1,11 @@
-# STATUS  (last updated: 2026-10-24 19:23 IST)
+# STATUS  (last updated: 2026-10-24 19:53 IST)
 
-Stage: 2 / harness (mock)   Overall: on track
-Done this stage: Plan is in `docs/PLAN.md`. Harness, mock provider, and pytest are in place. 12 tests passed on the mock provider (prompt round-trip, ablations, Nash/monopoly vs vendored OligopolyGame, deterministic scripted proposer, parse retries, replay effect formula, end-to-end game + replay + signals). No paid calls. `uv sync` finished (Python 3.12, wandb 0.31.0). A mock smoke run is on the dashboard: https://forge.coreweave.com/wandb/vibhork11/Apart%20Research-%20AI%20Collusion/runs/uz0eqery — logged in as `murtuzashaikh-2023` / entity `vibhork11`. That run is a wiring check, not an experiment. The system Python 3.14 W&B client (0.25.1) hung; use `.venv`.
-Key results so far: no experimental numbers yet. Test suite: 12 passed (`python -m pytest`). Spend ledger not opened.
-Running in background: `uv sync` (project venv, Python 3.12). Still downloading wheels. Tests already passed on the system Python 3.14 install.
-Spend so far: $0 (no Fireworks calls)
-NEXT: Fireworks model list, 10-call benchmark, model table, then wait for approval before the positive control.
+Stage: 2 done, stage 3 starting   Overall: on track
+Done this stage: Fireworks key is in `.env` only. Live catalog has 27 serverless models. No Qwen3-8B chat model and no Gemma 4 31B. GLM 5.3 Flash rejects `reasoning_effort=none` (thinking-only), so it is not an agent. Chosen models are in `configs/models.yaml`. Benchmarks are in `results/benchmarks/` and `results/RESULTS.md`. A 5-round case A smoke on DeepSeek V4.1 Flash finished: 20/20 calls parsed, full prompts logged, no hidden reasoning, cost $0.005504. Mean gain over those 5 rounds was 0.978. That row is a pipeline check, not the positive-control gate. W&B run: https://forge.coreweave.com/wandb/vibhork11/Apart%20Research-%20AI%20Collusion/runs/Aseed0r5accountsfireworksmodelsdeepseekv4p1flash
+Key results so far: no 30-round result yet. DeepSeek serial benchmark: 1.34 s/call, 17 completion tokens, $0.000396 for 10 calls, reasoning off. Concurrency 20 was rejected with HTTP 429. Concurrency 4 was slower (2.09 s/call) because of rate-limit retries. Games use concurrency 2. Nemotron Lightning 30B: 2.53 s/call, reasoning off, $0.000059 for 10 calls. Judge GPT-OSS 120B at low reasoning: 0.85 s/call, hidden reasoning on all 10 probe calls (logged, not shown to the agents). Test suite: 12 passed.
+Running in background: `ollama pull qwen2.5:7b-instruct` (about 94% of 4.7 GB, roughly 1 minute left when this was written). The local 20-call comparison starts when the pull finishes.
+Spend so far: $0.007162 (70 calls, 14888 prompt tokens, 2835 completion tokens; `results/spend.json`, 2026-10-24 19:52 IST). Positive control estimate from the smoke's real tokens, scaled for a longer history window: about $0.25 for 3 seeds x 30 rounds x 2 firms x chat+price. Under the $3 approval line.
+NEXT: Case A, seeds 0 1 2, 30 rounds, DeepSeek V4.1 Flash, `reasoning_effort=none`. Gate A is mean gain over the last 10 rounds above 0.5 in at least 2 of 3 seeds.
 NEED FROM MURT:
-1. Create a Fireworks key at https://app.fireworks.ai → API Keys and paste it into `.env` as `FIREWORKS_API_KEY=` yourself. Do not paste the key into chat.
-2. Nothing else is blocking. Modal is already signed in as profile `ronitk964` (token file present; the `modal` command is not on PATH yet, so the CLI install is next). Ollama is installed, but `qwen2.5:7b-instruct` is not pulled. Optional, only if you want the local benchmark: `ollama pull qwen2.5:7b-instruct`.
+1. Nothing blocking. Leave the laptop awake (Windows: Settings → System → Power, set sleep to Never while plugged in) so the 30-round runs are not paused.
+2. The Fireworks key was pasted in chat. Rotate it at https://app.fireworks.ai when you can, then put the new value only in `.env`.

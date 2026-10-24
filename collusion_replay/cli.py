@@ -15,7 +15,7 @@ import yaml
 from dotenv import load_dotenv
 
 from collusion_replay.game import run_game
-from collusion_replay.io_utils import read_jsonl, read_spend
+from collusion_replay.io_utils import add_spend, read_jsonl, read_spend
 from collusion_replay.llm import make_provider
 from collusion_replay.market import Market
 from collusion_replay.replay import replay_trajectory
@@ -52,12 +52,17 @@ def _guard_spend(provider_name: str, est: float, results_root: Path, approve: bo
 
 
 def _provider_from_args(args):
+    extra = None
+    effort = getattr(args, "reasoning_effort", None)
+    if effort:
+        extra = {"reasoning_effort": effort}
     return make_provider(
         args.provider,
         args.model,
         concurrency=args.concurrency,
         input_per_million=args.input_per_million,
         output_per_million=args.output_per_million,
+        extra_body=extra,
     )
 
 
@@ -83,6 +88,7 @@ async def _cmd_game(args) -> None:
             rounds=rounds,
             results_root=Path(args.results),
             use_wandb=use_wandb,
+            pipeline_check=args.pipeline_check,
         )
         print(json.dumps({"run_id": summary["run_id"], "mean_gain_last10": summary["mean_gain_last10"], "positive_control": summary["positive_control"]}))
 
@@ -170,15 +176,30 @@ async def _cmd_benchmark(args) -> None:
     summary = {
         "provider": args.provider,
         "model": args.model,
+        "reasoning_effort": getattr(args, "reasoning_effort", None),
+        "input_per_million_usd": args.input_per_million,
+        "output_per_million_usd": args.output_per_million,
+        "price_source": "https://docs.fireworks.ai/serverless/pricing",
         "n": args.n,
         "concurrency": args.concurrency,
         "elapsed_s": elapsed,
+        "seconds_per_call": elapsed / args.n if args.n else None,
         "mean_latency_s": sum(latencies) / len(latencies),
         "calls_per_minute": args.n / elapsed * 60 if elapsed else None,
         "prompt_tokens": prompt_tokens,
         "completion_tokens": completion_tokens,
         "estimated_usd": _estimate_usd(1, prompt_tokens, completion_tokens, args.input_per_million, args.output_per_million),
+        "hidden_reasoning_calls": sum(1 for _lat, result in rows if result.hidden_reasoning),
+        "ran_at_local": time.strftime("%Y-%m-%dT%H:%M:%S"),
     }
+    if args.provider != "mock":
+        add_spend(
+            Path(args.results),
+            summary["estimated_usd"],
+            prompt_tokens,
+            completion_tokens,
+            n_calls=args.n,
+        )
     out = Path(args.results) / "benchmarks"
     out.mkdir(parents=True, exist_ok=True)
     stamp = time.strftime("%Y%m%dT%H%M%S")
@@ -219,11 +240,13 @@ def build_parser() -> argparse.ArgumentParser:
     game.add_argument("--seeds", type=int, nargs="+", required=True)
     game.add_argument("--rounds", type=int, default=None)
     game.add_argument("--concurrency", type=int, default=20)
+    game.add_argument("--reasoning-effort", default="none", choices=["none", "low", "medium", "high"])
     game.add_argument("--input-per-million", type=float, default=0.0)
     game.add_argument("--output-per-million", type=float, default=0.0)
     game.add_argument("--wandb", action="store_true")
     game.add_argument("--no-wandb", action="store_true")
     game.add_argument("--approve-spend", action="store_true")
+    game.add_argument("--pipeline-check", action="store_true")
     game.set_defaults(func=_cmd_game, async_cmd=True)
 
     replay = sub.add_parser("replay")
@@ -231,6 +254,7 @@ def build_parser() -> argparse.ArgumentParser:
     replay.add_argument("--provider", default="mock", choices=["mock", "fireworks", "ollama"])
     replay.add_argument("--model", default="mock")
     replay.add_argument("--concurrency", type=int, default=20)
+    replay.add_argument("--reasoning-effort", default="none", choices=["none", "low", "medium", "high"])
     replay.add_argument("--n-factual", type=int, default=12)
     replay.add_argument("--n-ablate", type=int, default=6)
     replay.add_argument("--n-rounds", type=int, default=8)
@@ -249,6 +273,7 @@ def build_parser() -> argparse.ArgumentParser:
     bench.add_argument("--model", required=True)
     bench.add_argument("--n", type=int, default=10)
     bench.add_argument("--concurrency", type=int, default=1)
+    bench.add_argument("--reasoning-effort", default=None, choices=["none", "low", "medium", "high"])
     bench.add_argument("--input-per-million", type=float, default=0.0)
     bench.add_argument("--output-per-million", type=float, default=0.0)
     bench.add_argument("--approve-spend", action="store_true")

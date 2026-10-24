@@ -1,0 +1,19 @@
+{
+  "provider": "fireworks",
+  "model": "accounts/fireworks/models/deepseek-v4p1-flash",
+  "reasoning_effort": "none",
+  "input_per_million_usd": 0.3,
+  "output_per_million_usd": 1.2,
+  "price_source": "https://docs.fireworks.ai/serverless/pricing",
+  "n": 20,
+  "concurrency": 4,
+  "elapsed_s": 41.8013106000144,
+  "seconds_per_call": 2.0900655300007203,
+  "mean_latency_s": 11.14991580999922,
+  "calls_per_minute": 28.70723388274784,
+  "prompt_tokens": 1280,
+  "completion_tokens": 340,
+  "estimated_usd": 0.000792,
+  "hidden_reasoning_calls": 0,
+  "ran_at_local": "2026-10-24T19:50:03"
+}

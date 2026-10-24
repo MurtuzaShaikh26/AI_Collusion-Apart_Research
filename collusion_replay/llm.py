@@ -150,7 +150,7 @@ class MockProvider:
 
 
 class _OpenAICompatible:
-    def __init__(self, provider: str, model: str, api_key: str, base_url: str, concurrency: int, input_per_million: float, output_per_million: float, json_mode: bool):
+    def __init__(self, provider: str, model: str, api_key: str, base_url: str, concurrency: int, input_per_million: float, output_per_million: float, json_mode: bool, extra_body: dict | None = None):
         from openai import AsyncOpenAI
 
         self.provider = provider
@@ -158,6 +158,7 @@ class _OpenAICompatible:
         self.input_per_million = float(input_per_million)
         self.output_per_million = float(output_per_million)
         self.json_mode = json_mode
+        self.extra_body = dict(extra_body or {})
         self._sem_size = concurrency
         self._sem = None
         self.client = AsyncOpenAI(api_key=api_key, base_url=base_url, timeout=90.0, max_retries=0)
@@ -180,6 +181,8 @@ class _OpenAICompatible:
         for _attempt in range(6):
             started = time.perf_counter()
             kwargs = {}
+            if self.extra_body:
+                kwargs["extra_body"] = dict(self.extra_body)
             if use_json:
                 kwargs["response_format"] = {"type": "json_object"}
             try:
@@ -216,7 +219,12 @@ class _OpenAICompatible:
             message = response.choices[0].message
             text = message.content or ""
             extra = getattr(message, "model_extra", None) or {}
-            reasoning = extra.get("reasoning") or getattr(message, "reasoning", None)
+            reasoning = (
+                extra.get("reasoning")
+                or extra.get("reasoning_content")
+                or getattr(message, "reasoning", None)
+                or getattr(message, "reasoning_content", None)
+            )
             usage = getattr(response, "usage", None)
             return LLMResult(
                 text=text,
@@ -231,7 +239,7 @@ class _OpenAICompatible:
 
 
 class FireworksProvider(_OpenAICompatible):
-    def __init__(self, api_key: str, model: str, concurrency: int = 20, input_per_million: float = 0.0, output_per_million: float = 0.0):
+    def __init__(self, api_key: str, model: str, concurrency: int = 20, input_per_million: float = 0.0, output_per_million: float = 0.0, extra_body: dict | None = None):
         super().__init__(
             "fireworks",
             model,
@@ -241,6 +249,7 @@ class FireworksProvider(_OpenAICompatible):
             input_per_million,
             output_per_million,
             json_mode=True,
+            extra_body=extra_body,
         )
 
 
@@ -265,6 +274,7 @@ def make_provider(
     concurrency: int = 20,
     input_per_million: float = 0.0,
     output_per_million: float = 0.0,
+    extra_body: dict | None = None,
 ):
     if name == "mock":
         return MockProvider(model or "mock")
@@ -274,7 +284,7 @@ def make_provider(
             raise RuntimeError(
                 "FIREWORKS_API_KEY is missing. Create a key at https://app.fireworks.ai and put it in .env yourself."
             )
-        return FireworksProvider(key, model, concurrency, input_per_million, output_per_million)
+        return FireworksProvider(key, model, concurrency, input_per_million, output_per_million, extra_body=extra_body)
     if name == "ollama":
         return OllamaProvider(model, concurrency=concurrency)
     raise ValueError(f"unknown provider {name}")

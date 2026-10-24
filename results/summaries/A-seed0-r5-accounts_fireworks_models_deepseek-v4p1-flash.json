@@ -1,0 +1,25 @@
+{
+  "run_id": "A-seed0-r5-accounts_fireworks_models_deepseek-v4p1-flash",
+  "case": "A",
+  "seed": 0,
+  "model": "accounts/fireworks/models/deepseek-v4p1-flash",
+  "provider": "fireworks",
+  "rounds": 5,
+  "rounds_completed": 5,
+  "mean_gain_last10": 0.9776675362036045,
+  "mean_price_last10": [
+    1.9739999999999998,
+    1.966
+  ],
+  "positive_control": true,
+  "nash_price_final": [
+    1.4729266600306228,
+    1.4729266600306228
+  ],
+  "monopoly_price_final": [
+    1.9249809190176554,
+    1.9249809190176554
+  ],
+  "finished": "2026-10-24T19:52:33+05:30",
+  "pipeline_check": true
+}

@@ -1,0 +1,19 @@
+{
+  "provider": "fireworks",
+  "model": "accounts/fireworks/models/nemotron-lightning-3p5-30b-a3b",
+  "reasoning_effort": "none",
+  "input_per_million_usd": 0.05,
+  "output_per_million_usd": 0.2,
+  "price_source": "https://docs.fireworks.ai/serverless/pricing",
+  "n": 10,
+  "concurrency": 1,
+  "elapsed_s": 25.250430100015365,
+  "seconds_per_call": 2.5250430100015366,
+  "mean_latency_s": 7.166927119996399,
+  "calls_per_minute": 23.76197148418612,
+  "prompt_tokens": 540,
+  "completion_tokens": 160,
+  "estimated_usd": 5.9e-05,
+  "hidden_reasoning_calls": 0,
+  "ran_at_local": "2026-10-24T19:51:09"
+}

@@ -43,6 +43,10 @@ def render(results_root: Path) -> str:
     results_root = Path(results_root)
     summaries = _load_dir(results_root / "summaries")
     signals = _load_dir(results_root / "signals")
+    benchmarks = _load_dir(results_root / "benchmarks")
+    for row in benchmarks:
+        if row.get("seconds_per_call") is None and row.get("n"):
+            row["seconds_per_call"] = float(row["elapsed_s"]) / float(row["n"])
     spend_path = results_root / "spend.json"
     spend = json.loads(spend_path.read_text(encoding="utf-8")) if spend_path.exists() else None
     checks = [row for row in summaries if row.get("pipeline_check") or row.get("case") == "SMOKE" or row.get("provider") == "mock"]
@@ -84,6 +88,32 @@ def render(results_root: Path) -> str:
             _table(
                 ["run_id", "case", "seed", "model", "provider", "rounds_completed", "mean_gain_last10", "positive_control", "finished"],
                 checks,
+            )
+        )
+    parts.append("")
+    parts.append("## Benchmarks (pipeline checks)")
+    parts.append("")
+    parts.append("Latency and token counts from `results/benchmarks/`. These are not experimental findings.")
+    parts.append("`seconds_per_call` is wall-clock elapsed time divided by n.")
+    parts.append("")
+    if not benchmarks:
+        parts.append("No benchmark files yet.")
+    else:
+        parts.append(
+            _table(
+                [
+                    "model",
+                    "reasoning_effort",
+                    "n",
+                    "concurrency",
+                    "seconds_per_call",
+                    "calls_per_minute",
+                    "prompt_tokens",
+                    "completion_tokens",
+                    "estimated_usd",
+                    "hidden_reasoning_calls",
+                ],
+                benchmarks,
             )
         )
     parts.append("")

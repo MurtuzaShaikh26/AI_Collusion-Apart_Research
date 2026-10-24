@@ -52,10 +52,16 @@ def read_spend(results_root: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def add_spend(results_root: Path, cost_usd: float, prompt_tokens: int, completion_tokens: int) -> dict:
+def add_spend(
+    results_root: Path,
+    cost_usd: float,
+    prompt_tokens: int,
+    completion_tokens: int,
+    n_calls: int = 1,
+) -> dict:
     data = read_spend(results_root)
     data["cumulative_usd"] = float(data.get("cumulative_usd", 0.0)) + float(cost_usd)
-    data["calls"] = int(data.get("calls", 0)) + 1
+    data["calls"] = int(data.get("calls", 0)) + int(n_calls)
     data["prompt_tokens"] = int(data.get("prompt_tokens", 0)) + int(prompt_tokens)
     data["completion_tokens"] = int(data.get("completion_tokens", 0)) + int(completion_tokens)
     data["updated"] = now_ist()

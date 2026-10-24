@@ -1,0 +1,19 @@
+{
+  "provider": "fireworks",
+  "model": "accounts/fireworks/models/gpt-oss-120b",
+  "reasoning_effort": "low",
+  "input_per_million_usd": 0.15,
+  "output_per_million_usd": 0.6,
+  "price_source": "https://docs.fireworks.ai/serverless/pricing",
+  "n": 10,
+  "concurrency": 1,
+  "elapsed_s": 8.451503699994646,
+  "seconds_per_call": 0.8451503699994646,
+  "mean_latency_s": 4.863136330002453,
+  "calls_per_minute": 70.99328371593568,
+  "prompt_tokens": 1220,
+  "completion_tokens": 380,
+  "estimated_usd": 0.000411,
+  "hidden_reasoning_calls": 10,
+  "ran_at_local": "2026-10-24T19:48:04"
+}
