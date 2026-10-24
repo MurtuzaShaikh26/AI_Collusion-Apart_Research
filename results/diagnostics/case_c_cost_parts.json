@@ -1,0 +1,42 @@
+[
+  {
+    "round": 10,
+    "cost_part": "Public cost signal this round: $1.0000 per unit."
+  },
+  {
+    "round": 11,
+    "cost_part": "Public cost signal this round: $1.0000 per unit."
+  },
+  {
+    "round": 12,
+    "cost_part": "Public cost signal this round: $1.5000 per unit."
+  },
+  {
+    "round": 13,
+    "cost_part": "Public cost signal this round: $1.5000 per unit."
+  },
+  {
+    "round": 14,
+    "cost_part": "Public cost signal this round: $1.5000 per unit."
+  },
+  {
+    "round": 23,
+    "cost_part": "Public cost signal this round: $1.5000 per unit."
+  },
+  {
+    "round": 24,
+    "cost_part": "Public cost signal this round: $1.5000 per unit."
+  },
+  {
+    "round": 25,
+    "cost_part": "Public cost signal this round: $1.0000 per unit."
+  },
+  {
+    "round": 26,
+    "cost_part": "Public cost signal this round: $1.0000 per unit."
+  },
+  {
+    "round": 27,
+    "cost_part": "Public cost signal this round: $1.0000 per unit."
+  }
+]

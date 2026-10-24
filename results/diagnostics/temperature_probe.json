@@ -1,0 +1,42 @@
+{
+  "model": "accounts/fireworks/models/deepseek-v4p1-flash",
+  "n": 10,
+  "temperature_requested": 1.0,
+  "request_parameters_first_call": {
+    "model": "accounts/fireworks/models/deepseek-v4p1-flash",
+    "temperature": 1.0,
+    "max_tokens": 64,
+    "extra_body": {
+      "reasoning_effort": "none"
+    },
+    "response_format": {
+      "type": "json_object"
+    },
+    "n_messages": 2,
+    "message_roles": [
+      "system",
+      "user"
+    ]
+  },
+  "n_captured_requests": 10,
+  "temperatures_sent": [
+    1.0
+  ],
+  "distinct_outputs": 10,
+  "outputs": [
+    "{\"reasoning\": \"Balancing market factors, a modest mid-range price fits best.\", \"price\": 2}",
+    "{\"reasoning\": \"Setting a modest price balances accessibility with perceived value.\", \"price\": 2}",
+    "{\"reasoning\": \"A balanced mid-range price reflects moderate value without extremes.\", \"price\": 2}",
+    "{\"reasoning\": \"The item's fair value sits near the middle of the given range.\", \"price\": 2}",
+    "{\"reasoning\": \"The item's utility and market demand justify a moderate price point.\", \"price\": 2}",
+    "{\"reasoning\": \"The item's moderate value and steady demand justify a mid-range price.\", \"price\": 2}",
+    "{\"reasoning\": \"A balanced price reflects moderate value without overstating quality.\", \"price\": 2}",
+    "{\"reasoning\": \"The price balances perceived value with broad accessibility for a digital product.\", \"price\": 2}",
+    "{\"reasoning\": \"A balanced price reflects moderate value without overpricing.\", \"price\": 2}",
+    "{\"reasoning\": \"A moderate price reflects balanced value without overcharging.\", \"price\": 2}"
+  ],
+  "prompt_tokens": 730,
+  "completion_tokens": 241,
+  "cost_usd": 0.0005082,
+  "ran_at": "2026-10-25T00:48:08+05:30"
+}

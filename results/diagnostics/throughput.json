@@ -1,0 +1,48 @@
+{
+  "model": "accounts/fireworks/models/deepseek-v4p1-flash",
+  "n": 200,
+  "levels": [
+    {
+      "concurrency": 16,
+      "requested": 200,
+      "successes": 200,
+      "failures": 0,
+      "timed_out": 0,
+      "elapsed_s": 14.789617100032046,
+      "calls_per_minute": 811.3800322777794,
+      "error_rate": 0.0,
+      "prompt_tokens": 441200,
+      "completion_tokens": 5937,
+      "cost_usd": 0.13948439999999998,
+      "finished": "2026-10-25T00:50:09+05:30"
+    },
+    {
+      "concurrency": 32,
+      "requested": 200,
+      "successes": 200,
+      "failures": 0,
+      "timed_out": 0,
+      "elapsed_s": 8.616399000049569,
+      "calls_per_minute": 1392.6931656636336,
+      "error_rate": 0.0,
+      "prompt_tokens": 441200,
+      "completion_tokens": 5709,
+      "cost_usd": 0.1392108,
+      "finished": "2026-10-25T00:50:18+05:30"
+    },
+    {
+      "concurrency": 48,
+      "requested": 200,
+      "successes": 200,
+      "failures": 0,
+      "timed_out": 0,
+      "elapsed_s": 8.44639970001299,
+      "calls_per_minute": 1420.723672357294,
+      "error_rate": 0.0,
+      "prompt_tokens": 441200,
+      "completion_tokens": 6494,
+      "cost_usd": 0.1401528,
+      "finished": "2026-10-25T00:50:26+05:30"
+    }
+  ]
+}
