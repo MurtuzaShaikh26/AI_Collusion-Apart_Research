@@ -1,0 +1,34 @@
+{
+  "run_id": "C-c2-seed2-r30-_fireworks_models_nemotron-lightning-3p5-30b-a3b",
+  "replayed_rounds": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    14,
+    17,
+    19,
+    20,
+    23,
+    26
+  ],
+  "strata": [
+    "formation",
+    "maintenance"
+  ],
+  "short_trajectory": false,
+  "n_factual": 12,
+  "n_ablate": 6,
+  "conditions": [
+    "msg",
+    "chat_all",
+    "hist",
+    "common"
+  ],
+  "common": "included",
+  "artifact_suffix": ".strata",
+  "new_calls": 864,
+  "finished": "2026-10-25T02:08:27+05:30"
+}

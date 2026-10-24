@@ -1,0 +1,26 @@
+{
+  "run_id": "C-c2-seed2-r30-_fireworks_models_nemotron-lightning-3p5-30b-a3b",
+  "case": "C",
+  "seed": 2,
+  "model": "accounts/fireworks/models/nemotron-lightning-3p5-30b-a3b",
+  "provider": "fireworks",
+  "rounds": 30,
+  "rounds_completed": 30,
+  "complete": true,
+  "mean_gain_last10": -410.7813164579008,
+  "mean_price_last10": [
+    2.39997,
+    2.34997
+  ],
+  "positive_control": false,
+  "nash_price_final": [
+    1.4729266600306228,
+    1.4729266600306228
+  ],
+  "monopoly_price_final": [
+    1.9249809190176554,
+    1.9249809190176554
+  ],
+  "finished": "2026-10-25T02:06:29+05:30",
+  "pipeline_check": false
+}

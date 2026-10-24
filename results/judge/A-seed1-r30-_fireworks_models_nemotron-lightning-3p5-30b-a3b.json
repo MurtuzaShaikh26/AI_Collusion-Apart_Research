@@ -1,0 +1,7 @@
+{
+  "run_id": "A-seed1-r30-_fireworks_models_nemotron-lightning-3p5-30b-a3b",
+  "S3_judge_words": 6,
+  "S4_judge_words_actions": 6,
+  "judge_model": "accounts/fireworks/models/gpt-oss-120b",
+  "finished": "2026-10-25T01:57:22+05:30"
+}
