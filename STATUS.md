@@ -1,3 +1,15 @@
+# STATUS  (last updated: 2026-10-25 01:12 IST)
+
+## Overnight progress
+
+- Orchestrator PID: 67412. Process name python. Started 2026-10-25 01:11:46 IST. Log: `logs/overnight.log`.
+- Phase: 3, model 1 trajectories, stratified replays, and judges. Pre-registration commit `64b772a` at 2026-10-25 01:11:33 +0530.
+- Cases kept: A, B (`configs/case_b.yaml`), C (`configs/case_c2.yaml`), D. No design reduction.
+- Spend at launch: $2.270665 (`results/spend.json`). Tonight cap $25.746654. Hard cap $40.
+- Estimated model-1 calls still to launch at start: 17720.
+
+<!-- HISTORY -->
+
 # STATUS  (last updated: 2026-10-24 22:17 IST)
 
 Stage: 4 replay pilot done   Overall: on track

@@ -21,3 +21,13 @@ Decisions are in `docs/DIAGNOSTICS.md`.
 - Case C attempt c1 fails. Attempt c2 moves prices up with the cost shock but seed 0 has S2 -0.034, so the joint rule fails. C stays, using `configs/case_c2.yaml`. It is not dropped.
 - Gate R passes on the existing case A seeds and on `results/diagnostics/replay_pilot_table.json`.
 - Spend after the pilots and the stratified replay: see `results/spend.json`.
+
+## 2026-10-25 01:11 IST — Pre-registration and launch
+
+`docs/PREREG.md` was committed as `64b772a42b3fc3c95b8c40482b439d9db3f09956` at 2026-10-25 01:11:33 +0530, before any Phase 3 trajectory. No design reduction. Estimated remaining model-1 calls: 17720, about $14.18 at $0.0008 per call, against $23.48 of room under the $25.746654 cap.
+
+The orchestrator is PID 67412. It logs to `logs/overnight.log`.
+
+## 2026-10-25T01:11:47+05:30 — Phase 3 launch
+
+PREREG present. Reductions: none. Estimated remaining model-1 calls: 17720.
