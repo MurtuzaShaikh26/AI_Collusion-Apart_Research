@@ -1,11 +1,11 @@
-# STATUS  (last updated: 2026-10-25T01:41:48+05:30)
+# STATUS  (last updated: 2026-10-25T02:11:51+05:30)
 
 ## Overnight progress
 
-- Phase: phase 3
-- Spend: $7.509231 across 20006 calls.
+- Phase: phase 5
+- Spend: $9.252380 across 34260 calls.
 - Tonight cap: $25.746654. Hard cap: $40.
-- Estimated calls still to launch for model 1: 3400.
+- Estimated calls still to launch for model 1: 0.
 - Reductions: none.
 - Orchestrator PID: 17484.
 - Note: running.
