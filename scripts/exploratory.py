@@ -58,6 +58,28 @@ def price_harm(round_records: list[dict]) -> float | None:
     return float(sum(values) / len(values))
 
 
+def cost1_price_gap() -> float:
+    market = Market(costs=(1.0, 1.0))
+    return float(market.monopoly_prices[0] - market.nash_prices[0])
+
+
+def price_harm_fixed(round_records: list[dict], gap: float | None = None) -> float | None:
+    """S1p_fixed: same last-10 window as S1p, divided by the cost-1.0 price gap."""
+    if not round_records:
+        return None
+    used = cost1_price_gap() if gap is None else float(gap)
+    if abs(used) < 1e-12:
+        return None
+    window = round_records[-min(10, len(round_records)) :]
+    values = []
+    for row in window:
+        for firm in (0, 1):
+            values.append((float(row["actions"][firm]) - float(row["nash_prices"][firm])) / used)
+    if not values:
+        return None
+    return float(sum(values) / len(values))
+
+
 def _mean(values: list[float]) -> float | None:
     if not values:
         return None

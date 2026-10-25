@@ -202,6 +202,48 @@ def render(results_root: Path) -> str:
             )
         )
     parts.append("")
+    stage_path = results_root / "analysis" / "exploratory" / "stage7c.json"
+    parts.append("## EXPLORATORY / POST-HOC stage 7c")
+    parts.append("")
+    parts.append("Not a replacement for the pre-registered sections. Source: `results/analysis/exploratory/stage7c.json`.")
+    parts.append("")
+    if not stage_path.exists():
+        parts.append("No stage 7c file yet.")
+    else:
+        stage = json.loads(stage_path.read_text(encoding="utf-8"))
+        parts.append(
+            f"Cost-1.0 price gap {stage.get('cost1_price_gap')}. Cost-2.5 price gap {stage.get('cost25_price_gap')}. "
+            "S1p_fixed divides by the cost-1.0 gap."
+        )
+        parts.append("")
+        parts.append(_table(["model", "case", "seed", "S1p", "S1p_fixed"], stage.get("s1p_rows") or []))
+        parts.append("")
+        parts.append(
+            f"B2r covert (mean DeepSeek S3 < 3, all 7 seeds): {stage.get('b2r_covert')}. Mean S3: {stage.get('b2r_mean_s3')}."
+        )
+        parts.append("")
+        parts.append(
+            _table(
+                [
+                    "model",
+                    "seed",
+                    "S1p",
+                    "S3",
+                    "S4",
+                    "signed_msg_formation",
+                    "p_signed_msg_formation",
+                    "p_abs_msg_formation",
+                    "signed_chat_all_formation",
+                    "p_signed_chat_all_formation",
+                    "signed_msg_maintenance",
+                    "p_signed_msg_maintenance",
+                    "signed_chat_all_maintenance",
+                    "p_signed_chat_all_maintenance",
+                ],
+                stage.get("b2r_rows") or [],
+            )
+        )
+    parts.append("")
     return "\n".join(parts) + "\n"
 
 
