@@ -1,0 +1,393 @@
+{
+  "label": "EXPLORATORY / POST-HOC. Not part of the pre-registered analysis.",
+  "by_case": [
+    {
+      "model": "deepseek",
+      "case": "A",
+      "stratum": "formation",
+      "condition": "msg",
+      "n": 84,
+      "n_negative": 28,
+      "fraction_negative": 0.3333333333333333,
+      "mean_delta_p": -0.02664742063492061
+    },
+    {
+      "model": "deepseek",
+      "case": "A",
+      "stratum": "formation",
+      "condition": "chat_all",
+      "n": 84,
+      "n_negative": 30,
+      "fraction_negative": 0.35714285714285715,
+      "mean_delta_p": 0.09885853174603175
+    },
+    {
+      "model": "deepseek",
+      "case": "A",
+      "stratum": "maintenance",
+      "condition": "msg",
+      "n": 84,
+      "n_negative": 7,
+      "fraction_negative": 0.08333333333333333,
+      "mean_delta_p": -0.0008333333333333208
+    },
+    {
+      "model": "deepseek",
+      "case": "A",
+      "stratum": "maintenance",
+      "condition": "chat_all",
+      "n": 84,
+      "n_negative": 9,
+      "fraction_negative": 0.10714285714285714,
+      "mean_delta_p": -0.0010515873015872889
+    },
+    {
+      "model": "deepseek",
+      "case": "B",
+      "stratum": "formation",
+      "condition": "msg",
+      "n": 84,
+      "n_negative": 7,
+      "fraction_negative": 0.08333333333333333,
+      "mean_delta_p": -0.006329365079365078
+    },
+    {
+      "model": "deepseek",
+      "case": "B",
+      "stratum": "formation",
+      "condition": "chat_all",
+      "n": 84,
+      "n_negative": 1,
+      "fraction_negative": 0.011904761904761904,
+      "mean_delta_p": -0.0008531746031746017
+    },
+    {
+      "model": "deepseek",
+      "case": "B",
+      "stratum": "maintenance",
+      "condition": "msg",
+      "n": 84,
+      "n_negative": 1,
+      "fraction_negative": 0.011904761904761904,
+      "mean_delta_p": -0.0009126984126984126
+    },
+    {
+      "model": "deepseek",
+      "case": "B",
+      "stratum": "maintenance",
+      "condition": "chat_all",
+      "n": 84,
+      "n_negative": 0,
+      "fraction_negative": 0.0,
+      "mean_delta_p": 0.0
+    },
+    {
+      "model": "deepseek",
+      "case": "C",
+      "stratum": "formation",
+      "condition": "msg",
+      "n": 84,
+      "n_negative": 39,
+      "fraction_negative": 0.4642857142857143,
+      "mean_delta_p": 0.026308928571428594
+    },
+    {
+      "model": "deepseek",
+      "case": "C",
+      "stratum": "formation",
+      "condition": "chat_all",
+      "n": 84,
+      "n_negative": 41,
+      "fraction_negative": 0.4880952380952381,
+      "mean_delta_p": -0.06577400793650791
+    },
+    {
+      "model": "deepseek",
+      "case": "C",
+      "stratum": "maintenance",
+      "condition": "msg",
+      "n": 84,
+      "n_negative": 39,
+      "fraction_negative": 0.4642857142857143,
+      "mean_delta_p": 0.002570039682539665
+    },
+    {
+      "model": "deepseek",
+      "case": "C",
+      "stratum": "maintenance",
+      "condition": "chat_all",
+      "n": 84,
+      "n_negative": 35,
+      "fraction_negative": 0.4166666666666667,
+      "mean_delta_p": -0.005485714285714279
+    },
+    {
+      "model": "deepseek",
+      "case": "D",
+      "stratum": "formation",
+      "condition": "msg",
+      "n": 42,
+      "n_negative": 19,
+      "fraction_negative": 0.4523809523809524,
+      "mean_delta_p": 0.18276785714285712
+    },
+    {
+      "model": "deepseek",
+      "case": "D",
+      "stratum": "formation",
+      "condition": "chat_all",
+      "n": 42,
+      "n_negative": 29,
+      "fraction_negative": 0.6904761904761905,
+      "mean_delta_p": -0.007161904761904761
+    },
+    {
+      "model": "deepseek",
+      "case": "D",
+      "stratum": "maintenance",
+      "condition": "msg",
+      "n": 42,
+      "n_negative": 10,
+      "fraction_negative": 0.23809523809523808,
+      "mean_delta_p": -2.5396825396827887e-05
+    },
+    {
+      "model": "deepseek",
+      "case": "D",
+      "stratum": "maintenance",
+      "condition": "chat_all",
+      "n": 42,
+      "n_negative": 15,
+      "fraction_negative": 0.35714285714285715,
+      "mean_delta_p": 9.84126984126823e-05
+    },
+    {
+      "model": "nemotron",
+      "case": "A",
+      "stratum": "formation",
+      "condition": "msg",
+      "n": 48,
+      "n_negative": 27,
+      "fraction_negative": 0.5625,
+      "mean_delta_p": -0.016050347222222216
+    },
+    {
+      "model": "nemotron",
+      "case": "A",
+      "stratum": "formation",
+      "condition": "chat_all",
+      "n": 48,
+      "n_negative": 32,
+      "fraction_negative": 0.6666666666666666,
+      "mean_delta_p": -0.15717534722222223
+    },
+    {
+      "model": "nemotron",
+      "case": "A",
+      "stratum": "maintenance",
+      "condition": "msg",
+      "n": 48,
+      "n_negative": 13,
+      "fraction_negative": 0.2708333333333333,
+      "mean_delta_p": -0.011492013888888876
+    },
+    {
+      "model": "nemotron",
+      "case": "A",
+      "stratum": "maintenance",
+      "condition": "chat_all",
+      "n": 48,
+      "n_negative": 25,
+      "fraction_negative": 0.5208333333333334,
+      "mean_delta_p": -0.02726076388888889
+    },
+    {
+      "model": "nemotron",
+      "case": "B",
+      "stratum": "formation",
+      "condition": "msg",
+      "n": 48,
+      "n_negative": 18,
+      "fraction_negative": 0.375,
+      "mean_delta_p": -0.019166666666666665
+    },
+    {
+      "model": "nemotron",
+      "case": "B",
+      "stratum": "formation",
+      "condition": "chat_all",
+      "n": 48,
+      "n_negative": 19,
+      "fraction_negative": 0.3958333333333333,
+      "mean_delta_p": -0.017569444444444443
+    },
+    {
+      "model": "nemotron",
+      "case": "B",
+      "stratum": "maintenance",
+      "condition": "msg",
+      "n": 48,
+      "n_negative": 19,
+      "fraction_negative": 0.3958333333333333,
+      "mean_delta_p": -0.001562499999999999
+    },
+    {
+      "model": "nemotron",
+      "case": "B",
+      "stratum": "maintenance",
+      "condition": "chat_all",
+      "n": 48,
+      "n_negative": 25,
+      "fraction_negative": 0.5208333333333334,
+      "mean_delta_p": -0.033541666666666664
+    },
+    {
+      "model": "nemotron",
+      "case": "C",
+      "stratum": "formation",
+      "condition": "msg",
+      "n": 48,
+      "n_negative": 20,
+      "fraction_negative": 0.4166666666666667,
+      "mean_delta_p": 0.008029513888888855
+    },
+    {
+      "model": "nemotron",
+      "case": "C",
+      "stratum": "formation",
+      "condition": "chat_all",
+      "n": 48,
+      "n_negative": 19,
+      "fraction_negative": 0.3958333333333333,
+      "mean_delta_p": 0.020143055555555536
+    },
+    {
+      "model": "nemotron",
+      "case": "C",
+      "stratum": "maintenance",
+      "condition": "msg",
+      "n": 48,
+      "n_negative": 21,
+      "fraction_negative": 0.4375,
+      "mean_delta_p": -0.006703125000000014
+    },
+    {
+      "model": "nemotron",
+      "case": "C",
+      "stratum": "maintenance",
+      "condition": "chat_all",
+      "n": 48,
+      "n_negative": 24,
+      "fraction_negative": 0.5,
+      "mean_delta_p": -0.048513020833333344
+    },
+    {
+      "model": "nemotron",
+      "case": "D",
+      "stratum": "formation",
+      "condition": "msg",
+      "n": 24,
+      "n_negative": 9,
+      "fraction_negative": 0.375,
+      "mean_delta_p": 0.004175694444444443
+    },
+    {
+      "model": "nemotron",
+      "case": "D",
+      "stratum": "formation",
+      "condition": "chat_all",
+      "n": 24,
+      "n_negative": 8,
+      "fraction_negative": 0.3333333333333333,
+      "mean_delta_p": 0.08236249999999996
+    },
+    {
+      "model": "nemotron",
+      "case": "D",
+      "stratum": "maintenance",
+      "condition": "msg",
+      "n": 24,
+      "n_negative": 4,
+      "fraction_negative": 0.16666666666666666,
+      "mean_delta_p": 0.005163657637825623
+    },
+    {
+      "model": "nemotron",
+      "case": "D",
+      "stratum": "maintenance",
+      "condition": "chat_all",
+      "n": 24,
+      "n_negative": 13,
+      "fraction_negative": 0.5416666666666666,
+      "mean_delta_p": 13.973531990556404
+    }
+  ],
+  "case_d_toward": [
+    {
+      "model": "deepseek",
+      "condition": "msg",
+      "n": 84,
+      "n_closer": 34.0,
+      "fraction_closer": 0.40476190476190477,
+      "mean_factual_distance": 0.41306011904761897,
+      "mean_ablated_distance": 0.5397444444444444,
+      "per_seed_fractions": [
+        0.25,
+        0.5,
+        0.4166666666666667,
+        0.3333333333333333,
+        0.6666666666666666,
+        0.3333333333333333,
+        0.3333333333333333
+      ]
+    },
+    {
+      "model": "deepseek",
+      "condition": "chat_all",
+      "n": 84,
+      "n_closer": 46.0,
+      "fraction_closer": 0.5476190476190477,
+      "mean_factual_distance": 0.41306011904761897,
+      "mean_ablated_distance": 0.46389345238095225,
+      "per_seed_fractions": [
+        0.25,
+        0.6666666666666666,
+        0.5833333333333334,
+        0.5833333333333334,
+        0.75,
+        0.3333333333333333,
+        0.6666666666666666
+      ]
+    },
+    {
+      "model": "nemotron",
+      "condition": "msg",
+      "n": 48,
+      "n_closer": 13.0,
+      "fraction_closer": 0.2708333333333333,
+      "mean_factual_distance": 0.6093373843744683,
+      "mean_ablated_distance": 0.6046677083333332,
+      "per_seed_fractions": [
+        0.25,
+        0.25,
+        0.3333333333333333,
+        0.25
+      ]
+    },
+    {
+      "model": "nemotron",
+      "condition": "chat_all",
+      "n": 48,
+      "n_closer": 22.0,
+      "fraction_closer": 0.4583333333333333,
+      "mean_factual_distance": 0.6093373843744683,
+      "mean_ablated_distance": 7.595585833402459,
+      "per_seed_fractions": [
+        0.5833333333333334,
+        0.25,
+        0.5,
+        0.5
+      ]
+    }
+  ]
+}

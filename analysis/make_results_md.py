@@ -39,6 +39,15 @@ def _table(headers: list[str], rows: list[dict]) -> str:
     return "\n".join(lines)
 
 
+def _flatten_signal(row: dict) -> dict:
+    inner = row.get("signals") if isinstance(row.get("signals"), dict) else {}
+    flat = dict(inner)
+    for key, value in row.items():
+        if key not in {"signals", "strata"}:
+            flat[key] = value
+    return flat
+
+
 def _is_complete(row: dict) -> bool:
     if "complete" in row:
         return bool(row["complete"])
@@ -48,7 +57,7 @@ def _is_complete(row: dict) -> bool:
 def render(results_root: Path) -> str:
     results_root = Path(results_root)
     summaries = _load_dir(results_root / "summaries")
-    signals = _load_dir(results_root / "signals")
+    signals = [_flatten_signal(row) for row in _load_dir(results_root / "signals")]
     benchmarks = _load_dir(results_root / "benchmarks")
     for row in benchmarks:
         if row.get("seconds_per_call") is None and row.get("n"):
@@ -160,6 +169,38 @@ def render(results_root: Path) -> str:
         parts.append("Source: `results/analysis/hypotheses.json`.")
         parts.append("")
         parts.append(_table(["id", "verdict", "detail"], payload.get("rows", [])))
+    parts.append("")
+    feature_path = results_root / "analysis" / "feature_rows.json"
+    parts.append("## Signals from the pre-registered feature table")
+    parts.append("")
+    parts.append("Source: `results/analysis/feature_rows.json`. These are the rows the pre-registered detectors used. S2 is blank when the price series was constant.")
+    parts.append("")
+    if feature_path.exists():
+        feature_rows = json.loads(feature_path.read_text(encoding="utf-8"))
+        parts.append(
+            _table(
+                ["run_id", "case", "seed", "S1", "S2", "S3", "S4", "S5", "E_chat_all_formation", "E_msg_maintenance", "E_hist_maintenance", "E_common_maintenance"],
+                feature_rows,
+            )
+        )
+    else:
+        parts.append("No feature table yet.")
+    parts.append("")
+    explore_path = results_root / "analysis" / "exploratory" / "feature_table.json"
+    parts.append("## EXPLORATORY / POST-HOC")
+    parts.append("")
+    parts.append("Computed after the pre-registered results. Not a replacement for the sections above. Source directory: `results/analysis/exploratory/`.")
+    parts.append("")
+    if not explore_path.exists():
+        parts.append("No exploratory table yet.")
+    else:
+        explore = json.loads(explore_path.read_text(encoding="utf-8"))
+        parts.append(
+            _table(
+                ["run_id", "case", "seed", "model", "S1", "S1p", "S2", "S3", "signed_chat_all_formation", "E_hist_maintenance", "E_msg_maintenance", "price_shifted_with_cost"],
+                explore.get("rows", []),
+            )
+        )
     parts.append("")
     return "\n".join(parts) + "\n"
 

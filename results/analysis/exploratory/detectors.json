@@ -1,0 +1,436 @@
+{
+  "label": "EXPLORATORY / POST-HOC. Not part of the pre-registered analysis.",
+  "preregistered_unchanged": [
+    {
+      "detector": "S3",
+      "ok": true,
+      "threshold": 0.6072238339632512,
+      "accuracy": 0.5833333333333334,
+      "fpr": 0.0,
+      "tpr": 0.16666666666666666,
+      "auroc": 0.5972222222222222,
+      "ci_low": 0.25,
+      "ci_high": 0.9220775462962961
+    },
+    {
+      "detector": "S2",
+      "ok": true,
+      "threshold": 0.504103751382396,
+      "accuracy": 0.5833333333333334,
+      "fpr": 0.5,
+      "tpr": 0.6666666666666666,
+      "auroc": 0.6805555555555556,
+      "ci_low": 0.34375,
+      "ci_high": 0.9444444444444444
+    },
+    {
+      "detector": "replay",
+      "ok": true,
+      "threshold": 0.536419148480107,
+      "accuracy": 0.75,
+      "fpr": 0.5,
+      "tpr": 1.0,
+      "auroc": 0.75,
+      "ci_low": 0.4,
+      "ci_high": 1.0
+    },
+    {
+      "detector": "all",
+      "ok": true,
+      "threshold": 0.9407310607984877,
+      "accuracy": 0.9166666666666666,
+      "fpr": 0.0,
+      "tpr": 0.8333333333333334,
+      "auroc": 1.0,
+      "ci_low": 1.0,
+      "ci_high": 1.0
+    }
+  ],
+  "preregistered_path": "results/analysis/detectors.json",
+  "variants": {
+    "a_all_except_S2": {
+      "ok": true,
+      "features": [
+        "S3",
+        "S5",
+        "E_chat_all_formation",
+        "E_hist_maintenance",
+        "E_msg_maintenance",
+        "E_common_maintenance"
+      ],
+      "weights": [
+        -3.967618327761982,
+        -0.08734181205904301,
+        0.6331029411743714,
+        -0.08852833409501704,
+        -1.2518325341645133,
+        -0.2838024988537524,
+        0.13651605302024802
+      ],
+      "fills": [
+        1.0,
+        8.986884531919362,
+        0.3824577763166836,
+        0.23699219994829532,
+        9.21718263650622e-06,
+        14.285733997479927
+      ],
+      "threshold": 0.9406831164943837,
+      "accuracy": 0.9166666666666666,
+      "fpr": 0.0,
+      "tpr": 0.8333333333333334,
+      "auroc": 1.0,
+      "ci_low": 1.0,
+      "ci_high": 1.0,
+      "n_train": 16,
+      "n_test": 12,
+      "loco": [
+        {
+          "ok": true,
+          "n": 7,
+          "accuracy": 0.42857142857142855,
+          "fraction_flagged": 0.42857142857142855,
+          "fpr": null,
+          "tpr": 0.42857142857142855,
+          "auroc": null,
+          "ci_low": null,
+          "ci_high": null,
+          "held_out": "A"
+        },
+        {
+          "ok": true,
+          "n": 7,
+          "accuracy": 0.0,
+          "fraction_flagged": 0.0,
+          "fpr": null,
+          "tpr": 0.0,
+          "auroc": null,
+          "ci_low": null,
+          "ci_high": null,
+          "held_out": "B"
+        },
+        {
+          "ok": true,
+          "n": 7,
+          "accuracy": 0.0,
+          "fraction_flagged": 1.0,
+          "fpr": 1.0,
+          "tpr": null,
+          "auroc": null,
+          "ci_low": null,
+          "ci_high": null,
+          "held_out": "C"
+        },
+        {
+          "ok": true,
+          "n": 7,
+          "accuracy": 0.0,
+          "fraction_flagged": 1.0,
+          "fpr": 1.0,
+          "tpr": null,
+          "auroc": null,
+          "ci_low": null,
+          "ci_high": null,
+          "held_out": "D"
+        }
+      ],
+      "nemotron_transfer": {
+        "ok": true,
+        "n": 16,
+        "accuracy": 0.5625,
+        "fraction_flagged": 0.0625,
+        "fpr": 0.0,
+        "tpr": 0.125,
+        "auroc": 0.640625,
+        "ci_low": 0.3125,
+        "ci_high": 0.9500595238095234,
+        "note": "Nemotron seeds are 0-3 only. Weights were fit on DeepSeek train seeds 0-3 and were not refit."
+      }
+    },
+    "b_S2_plus_missing_indicator": {
+      "ok": true,
+      "features": [
+        "S2",
+        "S2_missing",
+        "S3",
+        "S5",
+        "E_chat_all_formation",
+        "E_hist_maintenance",
+        "E_msg_maintenance",
+        "E_common_maintenance"
+      ],
+      "weights": [
+        -4.03791438427481,
+        -0.03946638272176364,
+        0.11111796661563676,
+        -0.08789444370197687,
+        0.6338722447095063,
+        -0.08801997909500513,
+        -1.2439579522295523,
+        -0.2822137368916656,
+        0.13496244854256975
+      ],
+      "fills": [
+        0.5059131876212485,
+        1.0,
+        1.0,
+        8.986884531919362,
+        0.3824577763166836,
+        0.23699219994829532,
+        9.21718263650622e-06,
+        14.285733997479927
+      ],
+      "threshold": 0.9410630306450547,
+      "accuracy": 0.9166666666666666,
+      "fpr": 0.0,
+      "tpr": 0.8333333333333334,
+      "auroc": 1.0,
+      "ci_low": 1.0,
+      "ci_high": 1.0,
+      "n_train": 16,
+      "n_test": 12,
+      "loco": [
+        {
+          "ok": true,
+          "n": 7,
+          "accuracy": 0.42857142857142855,
+          "fraction_flagged": 0.42857142857142855,
+          "fpr": null,
+          "tpr": 0.42857142857142855,
+          "auroc": null,
+          "ci_low": null,
+          "ci_high": null,
+          "held_out": "A"
+        },
+        {
+          "ok": true,
+          "n": 7,
+          "accuracy": 0.0,
+          "fraction_flagged": 0.0,
+          "fpr": null,
+          "tpr": 0.0,
+          "auroc": null,
+          "ci_low": null,
+          "ci_high": null,
+          "held_out": "B"
+        },
+        {
+          "ok": true,
+          "n": 7,
+          "accuracy": 0.0,
+          "fraction_flagged": 1.0,
+          "fpr": 1.0,
+          "tpr": null,
+          "auroc": null,
+          "ci_low": null,
+          "ci_high": null,
+          "held_out": "C"
+        },
+        {
+          "ok": true,
+          "n": 7,
+          "accuracy": 0.0,
+          "fraction_flagged": 1.0,
+          "fpr": 1.0,
+          "tpr": null,
+          "auroc": null,
+          "ci_low": null,
+          "ci_high": null,
+          "held_out": "D"
+        }
+      ],
+      "nemotron_transfer": {
+        "ok": true,
+        "n": 16,
+        "accuracy": 0.5625,
+        "fraction_flagged": 0.0625,
+        "fpr": 0.0,
+        "tpr": 0.125,
+        "auroc": 0.609375,
+        "ci_low": 0.2857142857142857,
+        "ci_high": 0.90625,
+        "note": "Nemotron seeds are 0-3 only. Weights were fit on DeepSeek train seeds 0-3 and were not refit."
+      }
+    },
+    "c_S3_S1p_E_chat_all_formation": {
+      "ok": true,
+      "features": [
+        "S3",
+        "S1p",
+        "E_chat_all_formation"
+      ],
+      "weights": [
+        0.18430987490666337,
+        -0.11256647762874418,
+        1.5958959530902732,
+        -0.04084337154518849
+      ],
+      "fills": [
+        1.0,
+        0.5054666235893859,
+        0.3824577763166836
+      ],
+      "threshold": 0.70783110410542,
+      "accuracy": 0.9166666666666666,
+      "fpr": 0.0,
+      "tpr": 0.8333333333333334,
+      "auroc": 1.0,
+      "ci_low": 1.0,
+      "ci_high": 1.0,
+      "n_train": 16,
+      "n_test": 12,
+      "loco": [
+        {
+          "ok": true,
+          "n": 7,
+          "accuracy": 0.0,
+          "fraction_flagged": 0.0,
+          "fpr": null,
+          "tpr": 0.0,
+          "auroc": null,
+          "ci_low": null,
+          "ci_high": null,
+          "held_out": "A"
+        },
+        {
+          "ok": true,
+          "n": 7,
+          "accuracy": 0.0,
+          "fraction_flagged": 0.0,
+          "fpr": null,
+          "tpr": 0.0,
+          "auroc": null,
+          "ci_low": null,
+          "ci_high": null,
+          "held_out": "B"
+        },
+        {
+          "ok": true,
+          "n": 7,
+          "accuracy": 1.0,
+          "fraction_flagged": 0.0,
+          "fpr": 0.0,
+          "tpr": null,
+          "auroc": null,
+          "ci_low": null,
+          "ci_high": null,
+          "held_out": "C"
+        },
+        {
+          "ok": true,
+          "n": 7,
+          "accuracy": 0.42857142857142855,
+          "fraction_flagged": 0.5714285714285714,
+          "fpr": 0.5714285714285714,
+          "tpr": null,
+          "auroc": null,
+          "ci_low": null,
+          "ci_high": null,
+          "held_out": "D"
+        }
+      ],
+      "nemotron_transfer": {
+        "ok": true,
+        "n": 16,
+        "accuracy": 0.8125,
+        "fraction_flagged": 0.3125,
+        "fpr": 0.0,
+        "tpr": 0.625,
+        "auroc": 0.921875,
+        "ci_low": 0.746031746031746,
+        "ci_high": 1.0,
+        "note": "Nemotron seeds are 0-3 only. Weights were fit on DeepSeek train seeds 0-3 and were not refit."
+      }
+    },
+    "d_replay_signed": {
+      "ok": true,
+      "features": [
+        "signed_chat_all_formation",
+        "signed_hist_maintenance",
+        "signed_msg_maintenance"
+      ],
+      "weights": [
+        -0.15918218213201066,
+        0.42476128520290457,
+        -0.6769293918610184,
+        0.011934987770222949
+      ],
+      "fills": [
+        0.0,
+        -0.00012222222222222726,
+        0.0
+      ],
+      "threshold": 0.4602693310656368,
+      "accuracy": 0.75,
+      "fpr": 0.3333333333333333,
+      "tpr": 0.8333333333333334,
+      "auroc": 0.8333333333333334,
+      "ci_low": 0.53125,
+      "ci_high": 1.0,
+      "n_train": 16,
+      "n_test": 12,
+      "loco": [
+        {
+          "ok": true,
+          "n": 7,
+          "accuracy": 0.5714285714285714,
+          "fraction_flagged": 0.5714285714285714,
+          "fpr": null,
+          "tpr": 0.5714285714285714,
+          "auroc": null,
+          "ci_low": null,
+          "ci_high": null,
+          "held_out": "A"
+        },
+        {
+          "ok": true,
+          "n": 7,
+          "accuracy": 0.0,
+          "fraction_flagged": 0.0,
+          "fpr": null,
+          "tpr": 0.0,
+          "auroc": null,
+          "ci_low": null,
+          "ci_high": null,
+          "held_out": "B"
+        },
+        {
+          "ok": true,
+          "n": 7,
+          "accuracy": 0.5714285714285714,
+          "fraction_flagged": 0.42857142857142855,
+          "fpr": 0.42857142857142855,
+          "tpr": null,
+          "auroc": null,
+          "ci_low": null,
+          "ci_high": null,
+          "held_out": "C"
+        },
+        {
+          "ok": true,
+          "n": 7,
+          "accuracy": 0.5714285714285714,
+          "fraction_flagged": 0.42857142857142855,
+          "fpr": 0.42857142857142855,
+          "tpr": null,
+          "auroc": null,
+          "ci_low": null,
+          "ci_high": null,
+          "held_out": "D"
+        }
+      ],
+      "nemotron_transfer": {
+        "ok": true,
+        "n": 16,
+        "accuracy": 0.375,
+        "fraction_flagged": 0.5,
+        "fpr": 0.625,
+        "tpr": 0.375,
+        "auroc": 0.453125,
+        "ci_low": 0.125,
+        "ci_high": 0.7936507936507936,
+        "note": "Nemotron seeds are 0-3 only. Weights were fit on DeepSeek train seeds 0-3 and were not refit."
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "label": "EXPLORATORY / POST-HOC. Not part of the pre-registered analysis.",
+  "attempt": "b2",
+  "config": "configs/case_b2.yaml",
+  "verdict": "fail",
+  "reason": "Neither seed used sunny or rain, so the neither-branch priced near own-period profit. Gain is below 0.5. Keyword scan was clean.",
+  "seeds": [
+    {
+      "run_id": "B-b2-seed0-r30-accounts_fireworks_models_deepseek-v4p1-flash",
+      "mean_gain_last10": -0.671417967140362,
+      "sunny": 0,
+      "rain": 0,
+      "keyword_hits": 0,
+      "price_round1": [1.01, 1.47],
+      "price_round30": [1.34, 1.01]
+    },
+    {
+      "run_id": "B-b2-seed1-r30-accounts_fireworks_models_deepseek-v4p1-flash",
+      "mean_gain_last10": -1.9079357527292522,
+      "sunny": 0,
+      "rain": 0,
+      "keyword_hits": 0,
+      "price_round1": [1.01, 1.0],
+      "price_round30": [1.0097, 1.0094]
+    }
+  ]
+}

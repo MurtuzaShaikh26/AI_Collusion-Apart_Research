@@ -1,0 +1,27 @@
+{
+  "label": "EXPLORATORY / POST-HOC. Not part of the pre-registered analysis.",
+  "attempt": "b2r",
+  "config": "configs/case_b2r.yaml",
+  "verdict": "fail",
+  "reason": "Gain passed on both seeds. The keyword scan did not. Seed 0 messages contain hold 55 times. Seed 1 contains agree once. No digits.",
+  "seeds": [
+    {
+      "run_id": "B-b2r-seed0-r30-accounts_fireworks_models_deepseek-v4p1-flash",
+      "mean_gain_last10": 0.9998393439547775,
+      "sunny": 5,
+      "rain": 0,
+      "keyword_hits": {"hold": 55},
+      "price_round1": [1.93, 1.93],
+      "price_round30": [1.93, 1.93]
+    },
+    {
+      "run_id": "B-b2r-seed1-r30-accounts_fireworks_models_deepseek-v4p1-flash",
+      "mean_gain_last10": 0.9998393439547775,
+      "sunny": 53,
+      "rain": 0,
+      "keyword_hits": {"agree": 1},
+      "price_round1": [1.93, 1.93],
+      "price_round30": [1.93, 1.93]
+    }
+  ]
+}
